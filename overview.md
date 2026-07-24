@@ -6,7 +6,7 @@
 
 | Layer        | Technologies                                        | Status         | Test Project                               |
 | ------------ | --------------------------------------------------- | -------------- | ------------------------------------------ |
-| **Frontend** | Next.js, React, HTMX, Svelte                        | 🟡 In Progress | Task Manager UI ✅                         |
+| **Frontend** | Next.js, React, HTMX, Svelte                        | ✅ Completed   | Task Manager UI ✅                         |
 | **Backend**  | Node.js, Go (Microservices), FastAPI                | 🟡 In Progress | Task Manager API (FastAPI HTMX Backend ✅) |
 | **Database** | SQLite3, PostgreSQL, MongoDB, Redis                 | ⬜ Not Started | Multi-DB Task Store                        |
 | **DevOps**   | Docker, Docker Compose, K8s, GitHub Actions, ArgoCD | ⬜ Not Started | Containerized Pipeline                     |
@@ -32,7 +32,7 @@
 - `01-task-manager-react/` - ✅ **Completed** (React 19 SPA + Zustand + TanStack Query + DnD + Dynamic Category Discovery + Filter/Sort Toolbar + Lucide Icons + Tailwind v4)
 - `02-task-manager-nextjs/` - ✅ **Completed** (Next.js 15 App Router + Server Actions + Route Handlers + Edge Middleware + Metadata + Streaming Loading + Error Boundaries + DnD + Multi-Field Search + Subtasks + Bulk Ops + Export/Import + Keyboard Hotkeys)
 - `03-task-manager-htmx/` - ✅ **Completed** (HTMX 2.0 + FastAPI + Jinja2 + Active Search + OOB Toasts + SortableJS + Dynamic Category Discovery + Filter/Sort Toolbar + Lucide Icons)
-- `04-task-manager-svelte/` - SvelteKit full-stack app
+- `04-task-manager-svelte/` - ✅ **Completed** (Svelte 5 Runes + SvelteKit + Form Actions + Server Load + REST Route Handlers + Server Hooks + View Transitions API + DnD + Glassmorphism)
 
 #### Day 2: Backend Trio
 
@@ -254,17 +254,20 @@ All four implementations (React, Next.js, HTMX, SvelteKit) share the **exact sam
 - Dynamic category discovery from in-memory engine with case-insensitive matching
 - Out-Of-Band (OOB) Toast notifications via Jinja2 template rendering
 
-### Project 4: Task Manager (SvelteKit)
+### Project 4: Task Manager (SvelteKit) — ✅ Completed
 
-**Scope:** Full-stack with SSR, API routes, auth
-**Tech:** Svelte 5 (Runes), SvelteKit, TypeScript, Prisma, Auth.js / Lucia
+**Scope:** Full-stack with Svelte 5 Runes, SSR, Form Actions, REST API Handlers & View Transitions
+**Tech:** Svelte 5 (Runes), SvelteKit, TypeScript, Tailwind CSS v4, `svelte-dnd-action`, Lucide Svelte
+**Status:** ✅ Completed with unified `DESIGN.md` glassmorphism, responsive high-res views, screenshots, and complete tests/cheatsheet.
 **Features:**
 
 - Standardized Projects 1-4 UI & feature parity
-- Svelte runes (`$state`, `$derived`, `$effect`)
-- Server-side rendering (`+page.server.ts`) & Form actions
-- View Transitions API integration
-- Progressive enhancement & static pre-rendering
+- Svelte 5 runes (`$state`, `$derived`, `$effect`, `$props`)
+- Server-side rendering (`+page.server.ts`) & SvelteKit Form Actions with progressive enhancement (`use:enhance`)
+- REST API Route Handlers (`src/routes/api/tasks/+server.ts` & `[id]/+server.ts`)
+- Server handle hook (`src/hooks.server.ts`) for custom header injection and request timing
+- View Transitions API integration (`onNavigate`) in layout
+- Custom 404 / 500 error boundary page (`+error.svelte`)
 
 ### Project 5: API (Node.js)
 
@@ -598,20 +601,20 @@ Each cheatsheet should include:
 
 ## Progress Tracker
 
-| Day | Topic            | Status | Hours | Key Learnings                                                                                                               |
-| --- | ---------------- | ------ | ----- | --------------------------------------------------------------------------------------------------------------------------- |
-| 1.1 | React            | ✅     | 2     | React 19, Hooks, Context, Zustand 5, TanStack Query v5, `@hello-pangea/dnd`, Tailwind v4                                    |
-| 1.2 | Next.js          | ✅     | 1.5   | Next.js 15 App Router, Server Actions, Route Handlers, Edge Middleware, Metadata, Streaming, Error Boundaries, Zustand, DnD |
-| 1.3 | HTMX             | ✅     | 2     | HTMX 2.0, FastAPI, Jinja2 partials, Active Search, OOB Toasts, SortableJS, Glassmorphism                                    |
-| 1.4 | SvelteKit        | ⬜     | 0     |                                                                                                                             |
-| 2.1 | Node.js          | ⬜     | 0     |                                                                                                                             |
-| 2.2 | FastAPI          | ⬜     | 0     |                                                                                                                             |
-| 2.3 | Go Microservices | ⬜     | 0     |                                                                                                                             |
-| 3   | Databases        | ⬜     | 0     |                                                                                                                             |
-| 4   | Docker & K8s     | ⬜     | 0     |                                                                                                                             |
-| 5   | CI/CD            | ⬜     | 0     |                                                                                                                             |
-| 6   | AWS              | ⬜     | 0     |                                                                                                                             |
-| 7   | Capstone         | ⬜     | 0     |                                                                                                                             |
+| Day | Topic            | Status | Hours | Key Learnings                                                                                                                   |
+| --- | ---------------- | ------ | ----- | ------------------------------------------------------------------------------------------------------------------------------- |
+| 1.1 | React            | ✅     | 2     | React 19, Hooks, Context, Zustand 5, TanStack Query v5, `@hello-pangea/dnd`, Tailwind v4                                        |
+| 1.2 | Next.js          | ✅     | 1.5   | Next.js 15 App Router, Server Actions, Route Handlers, Edge Middleware, Metadata, Streaming, Error Boundaries, Zustand, DnD     |
+| 1.3 | HTMX             | ✅     | 2     | HTMX 2.0, FastAPI, Jinja2 partials, Active Search, OOB Toasts, SortableJS, Glassmorphism                                        |
+| 1.4 | SvelteKit        | ✅     | 2     | Svelte 5 Runes ($state, $derived, $effect), Form Actions, Server Load, REST API (+server.ts), View Transitions, hooks.server.ts |
+| 2.1 | Node.js          | ⬜     | 0     |                                                                                                                                 |
+| 2.2 | FastAPI          | ⬜     | 0     |                                                                                                                                 |
+| 2.3 | Go Microservices | ⬜     | 0     |                                                                                                                                 |
+| 3   | Databases        | ⬜     | 0     |                                                                                                                                 |
+| 4   | Docker & K8s     | ⬜     | 0     |                                                                                                                                 |
+| 5   | CI/CD            | ⬜     | 0     |                                                                                                                                 |
+| 6   | AWS              | ⬜     | 0     |                                                                                                                                 |
+| 7   | Capstone         | ⬜     | 0     |                                                                                                                                 |
 
 ---
 
@@ -630,4 +633,4 @@ By the end of this preparation:
 
 ---
 
-_Last Updated: 2026-07-24_
+_Last Updated: 2026-07-25_
