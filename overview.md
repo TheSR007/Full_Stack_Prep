@@ -4,13 +4,13 @@
 
 ## Tech Stack Overview
 
-| Layer        | Technologies                                        | Status         | Test Project           |
-| ------------ | --------------------------------------------------- | -------------- | ---------------------- |
-| **Frontend** | Next.js, React, HTMX, Svelte                        | ⬜ Not Started | Task Manager UI        |
-| **Backend**  | Node.js, Go (Microservices), FastAPI                | ⬜ Not Started | Task Manager API       |
-| **Database** | SQLite3, PostgreSQL, MongoDB, Redis                 | ⬜ Not Started | Multi-DB Task Store    |
-| **DevOps**   | Docker, Docker Compose, K8s, GitHub Actions, ArgoCD | ⬜ Not Started | Containerized Pipeline |
-| **AWS**      | VPC, EC2, ALB, RDS, S3, Route53                     | ⬜ Not Started | Cloud Deployment       |
+| Layer        | Technologies                                        | Status         | Test Project                   |
+| ------------ | --------------------------------------------------- | -------------- | ------------------------------ |
+| **Frontend** | Next.js, React, HTMX, Svelte                        | 🟡 In Progress | Task Manager UI (React SPA ✅) |
+| **Backend**  | Node.js, Go (Microservices), FastAPI                | ⬜ Not Started | Task Manager API               |
+| **Database** | SQLite3, PostgreSQL, MongoDB, Redis                 | ⬜ Not Started | Multi-DB Task Store            |
+| **DevOps**   | Docker, Docker Compose, K8s, GitHub Actions, ArgoCD | ⬜ Not Started | Containerized Pipeline         |
+| **AWS**      | VPC, EC2, ALB, RDS, S3, Route53                     | ⬜ Not Started | Cloud Deployment               |
 
 ---
 
@@ -29,7 +29,7 @@
 
 **Deliverable:** Four versions of a Task Manager UI
 
-- `task-manager-react/` - Pure React SPA
+- `01-task-manager-react/` - ✅ **Completed** (Pure React 19 SPA + Zustand + TanStack Query + DnD + Tailwind v4)
 - `task-manager-nextjs/` - Next.js full-stack app
 - `task-manager-htmx/` - HTMX + any backend (start with FastAPI)
 - `task-manager-sveltekit/` - SvelteKit full-stack app
@@ -188,62 +188,71 @@ hackathon-prep/
 
 ## Test Projects Detail
 
-### Project 1: Task Manager (React)
+### Standardized Core Features across Frontend Projects (1-4)
 
-**Scope:** CRUD app with filtering, sorting, drag-and-drop
-**Tech:** React 18, Vite, Tailwind CSS, React Query, Zustand
+All four implementations (React, Next.js, HTMX, SvelteKit) share the **exact same core UI and business capabilities**:
+
+- **Full Task CRUD**: Create, view, edit, delete tasks with inline/modal forms & validation.
+- **Attributes**: Title, detailed description, status (`todo`, `in_progress`, `completed`), priority (`low`, `medium`, `high`, `urgent`), due date, categories, and tags.
+- **Dual View Modes**: Interactive Kanban Board (Drag-and-Drop column status re-ordering) and Data Table/List View.
+- **Dynamic Routing & Detail Pages**: Deep linking to task details (`/tasks/:id`).
+- **Filtering, Search & Sorting**: Real-time keyword search, filter by priority/status/category, sort by due date/created date (synced via URL query params).
+- **Persistence & API Sync**: Local storage caching / sync with API endpoint readiness.
+- **Dark Mode & Responsive UI**: Seamless dark/light theme toggle and mobile responsiveness.
+- **Toast Notifications & Modals**: Action feedback overlays via Portals / dynamic UI handlers.
+
+---
+
+### Project 1: Task Manager (React) — ✅ Completed
+
+**Scope:** Pure React SPA covering full React core ecosystem
+**Tech:** React 19, Vite 8, React Router v7, Tailwind CSS v4, TanStack Query v5, Zustand v5, TypeScript, `@hello-pangea/dnd`, Lucide Icons
+**Status:** ✅ Completed with unified `DESIGN.md` glassmorphism, responsive high-res views, screenshots, and complete tests/cheatsheet.
 **Features:**
 
-- Create/edit/delete tasks
-- Categories & tags
-- Priority levels with color coding
-- Local storage persistence
-- Dark mode toggle
+- Multi-page routing (`/`, `/tasks`, `/tasks/:id`, `/analytics`, `/settings`) with React Router v7 & lazy Suspense fallback
+- React Context API (`ThemeContext` with Fast Refresh compliance) + Zustand persistent store (`useTaskStore`)
+- Dynamic Modals using React Portals (`createPortal`) with accessible forms & tag management
+- Interactive Drag-and-drop Kanban Board (`@hello-pangea/dnd`)
+- Custom Hooks (`useDebounce`, `useDocumentTitle`)
+- React Error Boundaries & high-res visual previews
 
 ### Project 2: Task Manager (Next.js)
 
 **Scope:** Full-stack with SSR, API routes, auth
-**Tech:** Next.js 14 (App Router), TypeScript, Prisma, NextAuth.js
+**Tech:** Next.js 14 (App Router), TypeScript, Tailwind CSS, Prisma, NextAuth.js
 **Features:**
 
-- Server Components + Client Components
+- Standardized Projects 1-4 UI & feature parity
+- Server Components + Client Components architecture
 - Server Actions for mutations
 - OAuth 2.0 authentication
 - Optimistic UI updates
-- ISR for task lists
-- API rate limiting
+- ISR for task lists & API rate limiting
 
 ### Project 3: Task Manager (HTMX)
 
 **Scope:** Server-rendered SPA feel
-**Tech:** HTMX + FastAPI/Go + Jinja2/Templ
+**Tech:** HTMX + FastAPI/Go + Jinja2/Templ + Tailwind CSS
 **Features:**
 
-- hx-get/put/post/delete patterns
-- Infinite scroll
-- Inline editing
-- Toast notifications
-- Active search
+- Standardized Projects 1-4 UI & feature parity
+- `hx-get`/`hx-put`/`hx-post`/`hx-delete` patterns
+- Dynamic target swapping for Kanban columns & inline editing
+- Active search & infinite scroll
+- Toast notifications via HTTP response headers (`HX-Trigger`)
 
 ### Project 4: Task Manager (SvelteKit)
 
 **Scope:** Full-stack with SSR, API routes, auth
-**Tech:** SvelteKit, TypeScript, Prisma, Lucia Auth / Auth.js
+**Tech:** Svelte 5 (Runes), SvelteKit, TypeScript, Prisma, Auth.js / Lucia
 **Features:**
 
-- Svelte runes ($state, $derived, $effect) — Svelte 5
-- Server-side rendering with `+page.server.ts` load functions
-- Form actions (`+page.server.ts` actions) for mutations
-- OAuth 2.0 authentication (GitHub/Google via Auth.js or Lucia)
-- Optimistic UI updates with `enhance` form action
-- Page transitions & view transitions API
-- API rate limiting via hooks (`hooks.server.ts`)
-- Progressive enhancement (works without JS)
-- Pre-rendering (`prerender`) for static pages
-- Endpoint routes (`+server.ts`) for REST API
-- Svelte stores for global state (or runes for local)
-- Tailwind CSS + Skeleton UI / shadcn-svelte
-- Vite-based dev server with HMR
+- Standardized Projects 1-4 UI & feature parity
+- Svelte runes (`$state`, `$derived`, `$effect`)
+- Server-side rendering (`+page.server.ts`) & Form actions
+- View Transitions API integration
+- Progressive enhancement & static pre-rendering
 
 ### Project 5: API (Node.js)
 
@@ -577,20 +586,20 @@ Each cheatsheet should include:
 
 ## Progress Tracker
 
-| Day | Topic            | Status | Hours | Key Learnings |
-| --- | ---------------- | ------ | ----- | ------------- |
-| 1.1 | React            | ⬜     | 0     |               |
-| 1.2 | Next.js          | ⬜     | 0     |               |
-| 1.3 | HTMX             | ⬜     | 0     |               |
-| 1.4 | SvelteKit        | ⬜     | 0     |               |
-| 2.1 | Node.js          | ⬜     | 0     |               |
-| 2.2 | FastAPI          | ⬜     | 0     |               |
-| 2.3 | Go Microservices | ⬜     | 0     |               |
-| 3   | Databases        | ⬜     | 0     |               |
-| 4   | Docker & K8s     | ⬜     | 0     |               |
-| 5   | CI/CD            | ⬜     | 0     |               |
-| 6   | AWS              | ⬜     | 0     |               |
-| 7   | Capstone         | ⬜     | 0     |               |
+| Day | Topic            | Status | Hours | Key Learnings                                                                            |
+| --- | ---------------- | ------ | ----- | ---------------------------------------------------------------------------------------- |
+| 1.1 | React            | ✅     | 4     | React 19, Hooks, Context, Zustand 5, TanStack Query v5, `@hello-pangea/dnd`, Tailwind v4 |
+| 1.2 | Next.js          | ⬜     | 0     |                                                                                          |
+| 1.3 | HTMX             | ⬜     | 0     |                                                                                          |
+| 1.4 | SvelteKit        | ⬜     | 0     |                                                                                          |
+| 2.1 | Node.js          | ⬜     | 0     |                                                                                          |
+| 2.2 | FastAPI          | ⬜     | 0     |                                                                                          |
+| 2.3 | Go Microservices | ⬜     | 0     |                                                                                          |
+| 3   | Databases        | ⬜     | 0     |                                                                                          |
+| 4   | Docker & K8s     | ⬜     | 0     |                                                                                          |
+| 5   | CI/CD            | ⬜     | 0     |                                                                                          |
+| 6   | AWS              | ⬜     | 0     |                                                                                          |
+| 7   | Capstone         | ⬜     | 0     |                                                                                          |
 
 ---
 
