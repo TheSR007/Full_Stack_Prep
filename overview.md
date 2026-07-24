@@ -14,7 +14,7 @@
 
 ---
 
-## Learning Roadmap (2-Week Sprint)
+## Learning Roadmap (1-Week Sprint)
 
 ### Phase 1: Foundation (Day 1-2)
 
