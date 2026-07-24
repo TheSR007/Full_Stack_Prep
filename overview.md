@@ -4,13 +4,13 @@
 
 ## Tech Stack Overview
 
-| Layer        | Technologies                                        | Status         | Test Project                                 |
-| ------------ | --------------------------------------------------- | -------------- | -------------------------------------------- |
-| **Frontend** | Next.js, React, HTMX, Svelte                        | 🟡 In Progress | Task Manager UI (React SPA ✅ & HTMX SPA ✅) |
-| **Backend**  | Node.js, Go (Microservices), FastAPI                | 🟡 In Progress | Task Manager API (FastAPI HTMX Backend ✅)   |
-| **Database** | SQLite3, PostgreSQL, MongoDB, Redis                 | ⬜ Not Started | Multi-DB Task Store                          |
-| **DevOps**   | Docker, Docker Compose, K8s, GitHub Actions, ArgoCD | ⬜ Not Started | Containerized Pipeline                       |
-| **AWS**      | VPC, EC2, ALB, RDS, S3, Route53                     | ⬜ Not Started | Cloud Deployment                             |
+| Layer        | Technologies                                        | Status         | Test Project                               |
+| ------------ | --------------------------------------------------- | -------------- | ------------------------------------------ |
+| **Frontend** | Next.js, React, HTMX, Svelte                        | 🟡 In Progress | Task Manager UI ✅                         |
+| **Backend**  | Node.js, Go (Microservices), FastAPI                | 🟡 In Progress | Task Manager API (FastAPI HTMX Backend ✅) |
+| **Database** | SQLite3, PostgreSQL, MongoDB, Redis                 | ⬜ Not Started | Multi-DB Task Store                        |
+| **DevOps**   | Docker, Docker Compose, K8s, GitHub Actions, ArgoCD | ⬜ Not Started | Containerized Pipeline                     |
+| **AWS**      | VPC, EC2, ALB, RDS, S3, Route53                     | ⬜ Not Started | Cloud Deployment                           |
 
 ---
 
@@ -30,7 +30,7 @@
 **Deliverable:** Four versions of a Task Manager UI
 
 - `01-task-manager-react/` - ✅ **Completed** (React 19 SPA + Zustand + TanStack Query + DnD + Dynamic Category Discovery + Filter/Sort Toolbar + Lucide Icons + Tailwind v4)
-- `02-task-manager-nextjs/` - Next.js full-stack app
+- `02-task-manager-nextjs/` - ✅ **Completed** (Next.js 15 App Router + Server Actions + Route Handlers + Edge Middleware + Metadata + Streaming Loading + Error Boundaries + DnD + Multi-Field Search + Subtasks + Bulk Ops + Export/Import + Keyboard Hotkeys)
 - `03-task-manager-htmx/` - ✅ **Completed** (HTMX 2.0 + FastAPI + Jinja2 + Active Search + OOB Toasts + SortableJS + Dynamic Category Discovery + Filter/Sort Toolbar + Lucide Icons)
 - `04-task-manager-svelte/` - SvelteKit full-stack app
 
@@ -223,18 +223,21 @@ All four implementations (React, Next.js, HTMX, SvelteKit) share the **exact sam
 - Custom Hooks (`useDebounce`, `useDocumentTitle`)
 - React Error Boundaries & high-res visual previews
 
-### Project 2: Task Manager (Next.js)
+### Project 2: Task Manager (Next.js) — ✅ Completed
 
-**Scope:** Full-stack with SSR, API routes, auth
-**Tech:** Next.js 14 (App Router), TypeScript, Tailwind CSS, Prisma, NextAuth.js
+**Scope:** Full-stack showcase with App Router, Server Actions, Route Handlers & Edge Proxy
+**Tech:** Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4, Zustand v5, TanStack Query v5, `@hello-pangea/dnd`, Lucide Icons
+**Status:** ✅ Completed with unified `DESIGN.md` glassmorphism, responsive high-res views, screenshots, and complete tests/cheatsheet.
 **Features:**
 
-- Standardized Projects 1-4 UI & feature parity
-- Server Components + Client Components architecture
-- Server Actions for mutations
-- OAuth 2.0 authentication
-- Optimistic UI updates
-- ISR for task lists & API rate limiting
+- Standardized Projects 1-4 UI & feature parity (Kanban Board, Task List Table, Analytics Dashboard, Detail Pages, Settings)
+- Server Components + Client Components architecture with clean `"use client"` boundaries
+- Server Actions (`"use server"`) for mutations with `revalidatePath` cache updates
+- REST Route Handlers (`src/app/api/tasks/route.ts` & `[id]/route.ts`)
+- Next.js 16 Edge Proxy (`src/proxy.ts`) with custom header injection
+- Dynamic Metadata (`generateMetadata`) for dynamic task detail routes
+- Instant Streaming Loading (`loading.tsx`), Custom Error Boundaries (`error.tsx`), and Custom 404 (`not-found.tsx`)
+- Extended Features: Multi-field live search & highlight, sub-tasks checklist progress bars, activity timestamp log, multi-select bulk batch operations, JSON/CSV exports, JSON imports, and global hotkeys engine (`N`, `/`, `B`, `L`, `?`, `Esc`)
 
 ### Project 3: Task Manager (HTMX) — ✅ Completed
 
@@ -595,20 +598,20 @@ Each cheatsheet should include:
 
 ## Progress Tracker
 
-| Day | Topic            | Status | Hours | Key Learnings                                                                            |
-| --- | ---------------- | ------ | ----- | ---------------------------------------------------------------------------------------- |
-| 1.1 | React            | ✅     | 4     | React 19, Hooks, Context, Zustand 5, TanStack Query v5, `@hello-pangea/dnd`, Tailwind v4 |
-| 1.2 | Next.js          | ⬜     | 0     |                                                                                          |
-| 1.3 | HTMX             | ✅     | 4     | HTMX 2.0, FastAPI, Jinja2 partials, Active Search, OOB Toasts, SortableJS, Glassmorphism |
-| 1.4 | SvelteKit        | ⬜     | 0     |                                                                                          |
-| 2.1 | Node.js          | ⬜     | 0     |                                                                                          |
-| 2.2 | FastAPI          | ⬜     | 0     |                                                                                          |
-| 2.3 | Go Microservices | ⬜     | 0     |                                                                                          |
-| 3   | Databases        | ⬜     | 0     |                                                                                          |
-| 4   | Docker & K8s     | ⬜     | 0     |                                                                                          |
-| 5   | CI/CD            | ⬜     | 0     |                                                                                          |
-| 6   | AWS              | ⬜     | 0     |                                                                                          |
-| 7   | Capstone         | ⬜     | 0     |                                                                                          |
+| Day | Topic            | Status | Hours | Key Learnings                                                                                                               |
+| --- | ---------------- | ------ | ----- | --------------------------------------------------------------------------------------------------------------------------- |
+| 1.1 | React            | ✅     | 2     | React 19, Hooks, Context, Zustand 5, TanStack Query v5, `@hello-pangea/dnd`, Tailwind v4                                    |
+| 1.2 | Next.js          | ✅     | 1.5   | Next.js 15 App Router, Server Actions, Route Handlers, Edge Middleware, Metadata, Streaming, Error Boundaries, Zustand, DnD |
+| 1.3 | HTMX             | ✅     | 2     | HTMX 2.0, FastAPI, Jinja2 partials, Active Search, OOB Toasts, SortableJS, Glassmorphism                                    |
+| 1.4 | SvelteKit        | ⬜     | 0     |                                                                                                                             |
+| 2.1 | Node.js          | ⬜     | 0     |                                                                                                                             |
+| 2.2 | FastAPI          | ⬜     | 0     |                                                                                                                             |
+| 2.3 | Go Microservices | ⬜     | 0     |                                                                                                                             |
+| 3   | Databases        | ⬜     | 0     |                                                                                                                             |
+| 4   | Docker & K8s     | ⬜     | 0     |                                                                                                                             |
+| 5   | CI/CD            | ⬜     | 0     |                                                                                                                             |
+| 6   | AWS              | ⬜     | 0     |                                                                                                                             |
+| 7   | Capstone         | ⬜     | 0     |                                                                                                                             |
 
 ---
 
