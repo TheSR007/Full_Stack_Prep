@@ -1,0 +1,187 @@
+<input type="hidden" name="view" value="kanban">
+
+<div class="space-y-4 sm:space-y-6 animate-fade-in-scale">
+  <!-- Filter & Controls Toolbar (Responsive Layout) -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 sm:p-4 rounded-2xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-md">
+    <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+      <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Filter:</span>
+      
+      <!-- Priority Filter -->
+      <select
+        name="priority"
+        hx-get="/tasks"
+        hx-target="#main-content"
+        hx-include="[name='view'], [name='search'], [name='category'], [name='sort_by']"
+        hx-push-url="true"
+        class="bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-2.5 sm:px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-indigo-500/50 outline-none cursor-pointer flex-1 sm:flex-none"
+      >
+        <option value="">All Priorities</option>
+        <option value="low" {% if current_priority == 'low' %}selected{% endif %}>Low</option>
+        <option value="medium" {% if current_priority == 'medium' %}selected{% endif %}>Medium</option>
+        <option value="high" {% if current_priority == 'high' %}selected{% endif %}>High</option>
+        <option value="urgent" {% if current_priority == 'urgent' %}selected{% endif %}>Urgent</option>
+      </select>
+
+      <!-- Category Filter (Dynamic Case-Insensitive) -->
+      <select
+        name="category"
+        hx-get="/tasks"
+        hx-target="#main-content"
+        hx-include="[name='view'], [name='search'], [name='priority'], [name='sort_by']"
+        hx-push-url="true"
+        class="bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-2.5 sm:px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-indigo-500/50 outline-none cursor-pointer flex-1 sm:flex-none"
+      >
+        <option value="">All Categories</option>
+        {% for cat in available_categories %}
+          <option value="{{ cat }}" {% if current_category and current_category.lower() == cat.lower() %}selected{% endif %}>{{ cat }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="flex items-center gap-2 sm:gap-3 justify-between sm:justify-start">
+      <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Sort by:</span>
+      <select
+        name="sort_by"
+        hx-get="/tasks"
+        hx-target="#main-content"
+        hx-include="[name='view'], [name='search'], [name='priority'], [name='category']"
+        hx-push-url="true"
+        class="bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-2.5 sm:px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-indigo-500/50 outline-none cursor-pointer flex-1 sm:flex-none"
+      >
+        <option value="created_at" {% if current_sort == 'created_at' %}selected{% endif %}>Date Created</option>
+        <option value="due_date" {% if current_sort == 'due_date' %}selected{% endif %}>Due Date</option>
+        <option value="priority" {% if current_sort == 'priority' %}selected{% endif %}>Priority Weight</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Kanban Columns Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 items-start">
+    
+    <!-- Todo Column -->
+    <div class="flex flex-col gap-3 sm:gap-4 bg-slate-100/50 dark:bg-slate-900/40 p-3.5 sm:p-4 rounded-2xl border-t-4 border-t-amber-500 border-x border-b border-slate-200/60 dark:border-slate-800/60 min-h-[350px] sm:min-h-[480px]">
+      <div class="flex items-center justify-between pb-1">
+        <div class="flex items-center gap-2">
+          <i data-lucide="alert-circle" class="w-4 h-4 text-amber-500"></i>
+          <h3 class="font-bold text-sm text-slate-800 dark:text-slate-200">To Do</h3>
+          <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+            {{ todo_tasks|length }}
+          </span>
+        </div>
+        <button
+          hx-get="/tasks/new"
+          hx-target="#modal-container"
+          class="p-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition"
+          title="Add Task to To Do"
+        >
+          <i data-lucide="plus" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div id="col-todo" data-status="todo" class="kanban-col flex flex-col gap-3 min-h-[250px] sm:min-h-[400px]">
+        {% for task in todo_tasks %}
+          <div data-task-id="{{ task.id }}">
+            {% include "components/task_card.html" %}
+          </div>
+        {% else %}
+          <div class="p-6 text-center border-2 border-dashed border-slate-200 dark:border-slate-800/80 rounded-xl text-xs text-slate-400 empty-placeholder">
+            No tasks in To Do
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- In Progress Column -->
+    <div class="flex flex-col gap-3 sm:gap-4 bg-slate-100/50 dark:bg-slate-900/40 p-3.5 sm:p-4 rounded-2xl border-t-4 border-t-indigo-500 border-x border-b border-slate-200/60 dark:border-slate-800/60 min-h-[350px] sm:min-h-[480px]">
+      <div class="flex items-center justify-between pb-1">
+        <div class="flex items-center gap-2">
+          <i data-lucide="clock" class="w-4 h-4 text-indigo-400"></i>
+          <h3 class="font-bold text-sm text-slate-800 dark:text-slate-200">In Progress</h3>
+          <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
+            {{ in_progress_tasks|length }}
+          </span>
+        </div>
+        <button
+          hx-get="/tasks/new"
+          hx-target="#modal-container"
+          class="p-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition"
+          title="Add Task to In Progress"
+        >
+          <i data-lucide="plus" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div id="col-in_progress" data-status="in_progress" class="kanban-col flex flex-col gap-3 min-h-[250px] sm:min-h-[400px]">
+        {% for task in in_progress_tasks %}
+          <div data-task-id="{{ task.id }}">
+            {% include "components/task_card.html" %}
+          </div>
+        {% else %}
+          <div class="p-6 text-center border-2 border-dashed border-slate-200 dark:border-slate-800/80 rounded-xl text-xs text-slate-400 empty-placeholder">
+            No active tasks
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Completed Column -->
+    <div class="flex flex-col gap-3 sm:gap-4 bg-slate-100/50 dark:bg-slate-900/40 p-3.5 sm:p-4 rounded-2xl border-t-4 border-t-emerald-500 border-x border-b border-slate-200/60 dark:border-slate-800/60 min-h-[350px] sm:min-h-[480px]">
+      <div class="flex items-center justify-between pb-1">
+        <div class="flex items-center gap-2">
+          <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+          <h3 class="font-bold text-sm text-slate-800 dark:text-slate-200">Completed</h3>
+          <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+            {{ completed_tasks|length }}
+          </span>
+        </div>
+        <button
+          hx-get="/tasks/new"
+          hx-target="#modal-container"
+          class="p-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition"
+          title="Add Task to Completed"
+        >
+          <i data-lucide="plus" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div id="col-completed" data-status="completed" class="kanban-col flex flex-col gap-3 min-h-[250px] sm:min-h-[400px]">
+        {% for task in completed_tasks %}
+          <div data-task-id="{{ task.id }}">
+            {% include "components/task_card.html" %}
+          </div>
+        {% else %}
+          <div class="p-6 text-center border-2 border-dashed border-slate-200 dark:border-slate-800/80 rounded-xl text-xs text-slate-400 empty-placeholder">
+            No completed tasks
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  (function initSortable() {
+    if (typeof Sortable === 'undefined') return;
+    const cols = document.querySelectorAll('.kanban-col');
+    cols.forEach(col => {
+      new Sortable(col, {
+        group: 'kanban-board',
+        animation: 150,
+        ghostClass: 'opacity-50',
+        onAdd: function (evt) {
+          const itemEl = evt.item;
+          const taskId = itemEl.getAttribute('data-task-id');
+          const targetStatus = evt.to.getAttribute('data-status');
+          if (taskId && targetStatus) {
+            htmx.ajax('POST', '/tasks/' + taskId + '/status', {
+              values: { status: targetStatus, view: 'kanban' },
+              target: '#main-content'
+            });
+          }
+        }
+      });
+    });
+    if (window.lucide) { window.lucide.createIcons(); }
+  })();
+</script>

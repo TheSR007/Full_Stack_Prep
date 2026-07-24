@@ -1,0 +1,41 @@
+<div id="toast-{{ toast_id }}" hx-swap-oob="beforeend:#toast-container">
+  <div class="pointer-events-auto flex items-center justify-between gap-3 p-4 rounded-2xl bg-slate-900/95 text-white border border-slate-700/80 shadow-2xl backdrop-blur-md animate-fade-in-scale">
+    <div class="flex items-center gap-3">
+      {% if type == 'success' %}
+        <div class="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+          <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+        </div>
+      {% elif type == 'info' %}
+        <div class="w-8 h-8 rounded-xl bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-400">
+          <i data-lucide="info" class="w-4 h-4"></i>
+        </div>
+      {% elif type == 'warning' %}
+        <div class="w-8 h-8 rounded-xl bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400">
+          <i data-lucide="trash-2" class="w-4 h-4"></i>
+        </div>
+      {% endif %}
+
+      <div>
+        <p class="text-xs font-bold">{{ message }}</p>
+        {% if detail %}
+          <p class="text-[11px] text-slate-400 mt-0.5">{{ detail }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <button
+      onclick="this.parentElement.remove()"
+      type="button"
+      class="text-slate-400 hover:text-white p-1"
+    >
+      <i data-lucide="x" class="w-3.5 h-3.5"></i>
+    </button>
+  </div>
+  <script>
+    if (window.lucide) { window.lucide.createIcons(); }
+    setTimeout(() => {
+      const el = document.getElementById('toast-{{ toast_id }}');
+      if (el) el.remove();
+    }, 4000);
+  </script>
+</div>

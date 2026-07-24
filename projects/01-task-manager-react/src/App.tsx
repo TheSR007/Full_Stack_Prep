@@ -44,99 +44,160 @@ const NavigationHeader: React.FC<{
     const { theme, toggleTheme } = useTheme();
 
     return (
-        <header className="border-b border-slate-200/80 dark:border-slate-800/80 glass-panel sticky top-0 z-40 transition-colors duration-200">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-4">
-                <div className="flex items-center gap-6">
-                    <NavLink
-                        to="/"
-                        className="flex items-center gap-2.5 text-lg font-extrabold text-slate-900 dark:text-white tracking-tight group">
-                        <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-violet-500 flex items-center justify-center text-white font-black text-xs shadow-md shadow-indigo-500/25 group-hover:scale-105 transition-transform duration-200">
-                            TM
-                        </div>
-                        <span className="bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-900 dark:from-white dark:via-slate-100 dark:to-indigo-200 bg-clip-text text-transparent">
-                            TaskFlow
-                        </span>
-                    </NavLink>
-
-                    <nav className="flex items-center gap-1 bg-slate-100/80 dark:bg-slate-950/80 p-1 rounded-xl border border-slate-200/60 dark:border-slate-800/60 text-xs font-semibold">
+        <>
+            <header className="border-b border-slate-200/80 dark:border-slate-800/80 glass-panel sticky top-0 z-40 transition-colors duration-200">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
+                    {/* Brand Logo & Desktop Nav Pills */}
+                    <div className="flex items-center gap-6">
                         <NavLink
                             to="/"
-                            className={({ isActive }) =>
-                                `flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all duration-150 ${
-                                    isActive
-                                        ? "bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-sm font-bold"
-                                        : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
-                                }`
-                            }>
-                            <LayoutGrid className="w-3.5 h-3.5" /> Board
+                            className="flex items-center gap-2.5 text-lg font-extrabold text-slate-900 dark:text-white tracking-tight group shrink-0">
+                            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-violet-500 flex items-center justify-center text-white font-black text-xs shadow-md shadow-indigo-500/25 group-hover:scale-105 transition-transform duration-200">
+                                TM
+                            </div>
+                            <span className="bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-900 dark:from-white dark:via-slate-100 dark:to-indigo-200 bg-clip-text text-transparent">
+                                TaskFlow
+                            </span>
                         </NavLink>
-                        <NavLink
-                            to="/tasks"
-                            className={({ isActive }) =>
-                                `flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all duration-150 ${
-                                    isActive
-                                        ? "bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-sm font-bold"
-                                        : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
-                                }`
-                            }>
-                            <List className="w-3.5 h-3.5" /> List
-                        </NavLink>
-                        <NavLink
-                            to="/analytics"
-                            className={({ isActive }) =>
-                                `flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all duration-150 ${
-                                    isActive
-                                        ? "bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-sm font-bold"
-                                        : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
-                                }`
-                            }>
-                            <BarChart3 className="w-3.5 h-3.5" /> Analytics
-                        </NavLink>
-                        <NavLink
-                            to="/settings"
-                            className={({ isActive }) =>
-                                `flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all duration-150 ${
-                                    isActive
-                                        ? "bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-sm font-bold"
-                                        : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
-                                }`
-                            }>
-                            <SettingsIcon className="w-3.5 h-3.5" /> Settings
-                        </NavLink>
-                    </nav>
-                </div>
 
-                <div className="flex items-center gap-3">
-                    <div className="relative">
-                        <Search className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
-                        <input
-                            type="text"
-                            placeholder="Search tasks..."
-                            value={searchQuery}
-                            onChange={e => setSearchQuery(e.target.value)}
-                            className="bg-slate-100/90 dark:bg-slate-950/90 border border-slate-200/80 dark:border-slate-800/80 rounded-xl pl-9 pr-3 py-1.5 text-xs text-slate-900 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 w-40 sm:w-56 transition-all"
-                        />
+                        {/* Desktop Navigation Links (>= 768px md Breakpoint) */}
+                        <nav className="hidden md:flex items-center gap-1 bg-slate-100/80 dark:bg-slate-950/80 p-1 rounded-xl border border-slate-200/60 dark:border-slate-800/60 text-xs font-semibold">
+                            <NavLink
+                                to="/"
+                                className={({ isActive }) =>
+                                    `flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all duration-150 ${
+                                        isActive
+                                            ? "bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-sm font-bold"
+                                            : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+                                    }`
+                                }>
+                                <LayoutGrid className="w-3.5 h-3.5" /> Board
+                            </NavLink>
+                            <NavLink
+                                to="/tasks"
+                                className={({ isActive }) =>
+                                    `flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all duration-150 ${
+                                        isActive
+                                            ? "bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-sm font-bold"
+                                            : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+                                    }`
+                                }>
+                                <List className="w-3.5 h-3.5" /> List
+                            </NavLink>
+                            <NavLink
+                                to="/analytics"
+                                className={({ isActive }) =>
+                                    `flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all duration-150 ${
+                                        isActive
+                                            ? "bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-sm font-bold"
+                                            : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+                                    }`
+                                }>
+                                <BarChart3 className="w-3.5 h-3.5" /> Analytics
+                            </NavLink>
+                            <NavLink
+                                to="/settings"
+                                className={({ isActive }) =>
+                                    `flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all duration-150 ${
+                                        isActive
+                                            ? "bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-sm font-bold"
+                                            : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+                                    }`
+                                }>
+                                <SettingsIcon className="w-3.5 h-3.5" /> Settings
+                            </NavLink>
+                        </nav>
                     </div>
 
-                    <button
-                        onClick={toggleTheme}
-                        aria-label="Toggle theme"
-                        className="p-2 rounded-xl bg-slate-100/90 dark:bg-slate-950/90 border border-slate-200/80 dark:border-slate-800/80 text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-amber-400 hover:border-indigo-500/30 transition-all duration-200 shadow-xs">
-                        {theme === "dark" ? (
-                            <Sun className="w-4 h-4 text-amber-400" />
-                        ) : (
-                            <Moon className="w-4 h-4 text-indigo-600" />
-                        )}
-                    </button>
+                    {/* Active Search & Header Controls */}
+                    <div className="flex items-center gap-2 sm:gap-3">
+                        <div className="relative w-32 sm:w-56">
+                            <Search className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
+                            <input
+                                type="text"
+                                placeholder="Search..."
+                                value={searchQuery}
+                                onChange={e => setSearchQuery(e.target.value)}
+                                className="w-full bg-slate-100/90 dark:bg-slate-950/90 border border-slate-200/80 dark:border-slate-800/80 rounded-xl pl-9 pr-3 py-1.5 text-xs text-slate-900 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
+                            />
+                        </div>
 
-                    <button
-                        onClick={onOpenCreate}
-                        className="flex items-center gap-1.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white px-4 py-1.5 rounded-xl text-xs font-semibold shadow-md shadow-indigo-500/20 active:scale-95 transition-all duration-150">
-                        <Plus className="w-4 h-4" /> New Task
-                    </button>
+                        <button
+                            onClick={toggleTheme}
+                            aria-label="Toggle theme"
+                            className="p-2 rounded-xl bg-slate-100/90 dark:bg-slate-950/90 border border-slate-200/80 dark:border-slate-800/80 text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-amber-400 hover:border-indigo-500/30 transition-all duration-200 shadow-xs shrink-0">
+                            {theme === "dark" ? (
+                                <Sun className="w-4 h-4 text-amber-400" />
+                            ) : (
+                                <Moon className="w-4 h-4 text-indigo-600" />
+                            )}
+                        </button>
+
+                        <button
+                            onClick={onOpenCreate}
+                            className="flex items-center gap-1.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white px-3 sm:px-4 py-1.5 rounded-xl text-xs font-semibold shadow-md shadow-indigo-500/20 active:scale-95 transition-all duration-150 shrink-0">
+                            <Plus className="w-4 h-4" />
+                            <span className="hidden sm:inline">New Task</span>
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </header>
+            </header>
+
+            {/* Fixed Mobile Bottom Navigation Bar (< 768px md Breakpoint) */}
+            <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 glass-panel border-t border-slate-200/80 dark:border-slate-800/80 px-2 py-1.5 flex items-center justify-around shadow-2xl">
+                <NavLink
+                    to="/"
+                    className={({ isActive }) =>
+                        `flex flex-col items-center gap-1 px-3.5 py-1 rounded-xl text-[10px] transition-all duration-150 ${
+                            isActive
+                                ? "font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-slate-800/80 shadow-xs"
+                                : "font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+                        }`
+                    }>
+                    <LayoutGrid className="w-4 h-4" />
+                    <span>Board</span>
+                </NavLink>
+
+                <NavLink
+                    to="/tasks"
+                    className={({ isActive }) =>
+                        `flex flex-col items-center gap-1 px-3.5 py-1 rounded-xl text-[10px] transition-all duration-150 ${
+                            isActive
+                                ? "font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-slate-800/80 shadow-xs"
+                                : "font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+                        }`
+                    }>
+                    <List className="w-4 h-4" />
+                    <span>List</span>
+                </NavLink>
+
+                <NavLink
+                    to="/analytics"
+                    className={({ isActive }) =>
+                        `flex flex-col items-center gap-1 px-3.5 py-1 rounded-xl text-[10px] transition-all duration-150 ${
+                            isActive
+                                ? "font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-slate-800/80 shadow-xs"
+                                : "font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+                        }`
+                    }>
+                    <BarChart3 className="w-4 h-4" />
+                    <span>Analytics</span>
+                </NavLink>
+
+                <NavLink
+                    to="/settings"
+                    className={({ isActive }) =>
+                        `flex flex-col items-center gap-1 px-3.5 py-1 rounded-xl text-[10px] transition-all duration-150 ${
+                            isActive
+                                ? "font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-slate-800/80 shadow-xs"
+                                : "font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+                        }`
+                    }>
+                    <SettingsIcon className="w-4 h-4" />
+                    <span>Settings</span>
+                </NavLink>
+            </nav>
+        </>
     );
 };
 
@@ -175,7 +236,7 @@ export function MainApp() {
                     setSearchQuery={setSearchQuery}
                 />
 
-                <main className="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6">
+                <main className="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 pb-24 md:pb-8">
                     <Suspense
                         fallback={
                             <div className="flex items-center justify-center py-20 text-slate-500 text-sm font-mono">

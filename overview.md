@@ -4,13 +4,13 @@
 
 ## Tech Stack Overview
 
-| Layer        | Technologies                                        | Status         | Test Project                   |
-| ------------ | --------------------------------------------------- | -------------- | ------------------------------ |
-| **Frontend** | Next.js, React, HTMX, Svelte                        | 🟡 In Progress | Task Manager UI (React SPA ✅) |
-| **Backend**  | Node.js, Go (Microservices), FastAPI                | ⬜ Not Started | Task Manager API               |
-| **Database** | SQLite3, PostgreSQL, MongoDB, Redis                 | ⬜ Not Started | Multi-DB Task Store            |
-| **DevOps**   | Docker, Docker Compose, K8s, GitHub Actions, ArgoCD | ⬜ Not Started | Containerized Pipeline         |
-| **AWS**      | VPC, EC2, ALB, RDS, S3, Route53                     | ⬜ Not Started | Cloud Deployment               |
+| Layer        | Technologies                                        | Status         | Test Project                                 |
+| ------------ | --------------------------------------------------- | -------------- | -------------------------------------------- |
+| **Frontend** | Next.js, React, HTMX, Svelte                        | 🟡 In Progress | Task Manager UI (React SPA ✅ & HTMX SPA ✅) |
+| **Backend**  | Node.js, Go (Microservices), FastAPI                | 🟡 In Progress | Task Manager API (FastAPI HTMX Backend ✅)   |
+| **Database** | SQLite3, PostgreSQL, MongoDB, Redis                 | ⬜ Not Started | Multi-DB Task Store                          |
+| **DevOps**   | Docker, Docker Compose, K8s, GitHub Actions, ArgoCD | ⬜ Not Started | Containerized Pipeline                       |
+| **AWS**      | VPC, EC2, ALB, RDS, S3, Route53                     | ⬜ Not Started | Cloud Deployment                             |
 
 ---
 
@@ -29,10 +29,10 @@
 
 **Deliverable:** Four versions of a Task Manager UI
 
-- `01-task-manager-react/` - ✅ **Completed** (Pure React 19 SPA + Zustand + TanStack Query + DnD + Tailwind v4)
-- `task-manager-nextjs/` - Next.js full-stack app
-- `task-manager-htmx/` - HTMX + any backend (start with FastAPI)
-- `task-manager-sveltekit/` - SvelteKit full-stack app
+- `01-task-manager-react/` - ✅ **Completed** (React 19 SPA + Zustand + TanStack Query + DnD + Dynamic Category Discovery + Filter/Sort Toolbar + Lucide Icons + Tailwind v4)
+- `02-task-manager-nextjs/` - Next.js full-stack app
+- `03-task-manager-htmx/` - ✅ **Completed** (HTMX 2.0 + FastAPI + Jinja2 + Active Search + OOB Toasts + SortableJS + Dynamic Category Discovery + Filter/Sort Toolbar + Lucide Icons)
+- `04-task-manager-svelte/` - SvelteKit full-stack app
 
 #### Day 2: Backend Trio
 
@@ -165,6 +165,7 @@ hackathon-prep/
 │   ├── redis.md
 │   └── sveltekit.md
 ├── projects/
+│   ├── DESIGN.md            # Global Source of Truth for Projects 1-4 UI/UX
 │   ├── 01-task-manager-react/
 │   ├── 02-task-manager-nextjs/
 │   ├── 03-task-manager-htmx/
@@ -193,13 +194,17 @@ hackathon-prep/
 All four implementations (React, Next.js, HTMX, SvelteKit) share the **exact same core UI and business capabilities**:
 
 - **Full Task CRUD**: Create, view, edit, delete tasks with inline/modal forms & validation.
-- **Attributes**: Title, detailed description, status (`todo`, `in_progress`, `completed`), priority (`low`, `medium`, `high`, `urgent`), due date, categories, and tags.
-- **Dual View Modes**: Interactive Kanban Board (Drag-and-Drop column status re-ordering) and Data Table/List View.
-- **Dynamic Routing & Detail Pages**: Deep linking to task details (`/tasks/:id`).
-- **Filtering, Search & Sorting**: Real-time keyword search, filter by priority/status/category, sort by due date/created date (synced via URL query params).
-- **Persistence & API Sync**: Local storage caching / sync with API endpoint readiness.
-- **Dark Mode & Responsive UI**: Seamless dark/light theme toggle and mobile responsiveness.
-- **Toast Notifications & Modals**: Action feedback overlays via Portals / dynamic UI handlers.
+- **Attributes**: Title, detailed description, status (`todo`, `in_progress`, `completed`), priority (`low`, `medium`, `high`, `urgent`), due date, categories, and tags (`#tag`).
+- **Dual View Modes**: Interactive Kanban Board (Drag-and-Drop / column status re-ordering with top border glowing accents) and Data Table/List View.
+- **Dynamic Category Discovery**: Categories are extracted dynamically from active task items (deduplicated case-insensitively and sorted alphabetically) with `All Categories` fallback.
+- **Filter & Sort Toolbar**: Priority filter, dynamic category filter, and multi-criteria sorting (Date Created, Due Date, Priority Weight, Task Title).
+- **Real-Time Analytics Dashboard (`/analytics`)**: Completion velocity tracking, completion rate progress bar (`%`), stat cards (`Total`, `Completed`, `In Progress`, `Urgent`), and priority distribution metrics.
+- **Settings & Preferences (`/settings`)**: Theme preferences (Light/Dark mode) and state store persistence reset controls.
+- **Dynamic Routing & Detail Pages (`/tasks/:id`)**: Deep linking to task details, breadcrumb back navigation, metadata cards grid, tag badges, and quick status switchers.
+- **Lucide Vector Iconography**: Uniform vector iconography across all controls, eliminating structural emojis.
+- **Compact Auto-Fitting Modals**: Centered overlays with fixed header, scrollable body, and fixed accessible action footer.
+- **Dark Mode & Responsive UI**: Seamless dark/light theme toggle and mobile responsiveness adhering to `DESIGN.md`.
+- **Toast Notifications**: Dynamic action feedback toasts (`success`, `info`, `warning`).
 
 ---
 
@@ -214,6 +219,7 @@ All four implementations (React, Next.js, HTMX, SvelteKit) share the **exact sam
 - React Context API (`ThemeContext` with Fast Refresh compliance) + Zustand persistent store (`useTaskStore`)
 - Dynamic Modals using React Portals (`createPortal`) with accessible forms & tag management
 - Interactive Drag-and-drop Kanban Board (`@hello-pangea/dnd`)
+- Dynamic category discovery with case-insensitive matching & filter/sort toolbar
 - Custom Hooks (`useDebounce`, `useDocumentTitle`)
 - React Error Boundaries & high-res visual previews
 
@@ -230,17 +236,20 @@ All four implementations (React, Next.js, HTMX, SvelteKit) share the **exact sam
 - Optimistic UI updates
 - ISR for task lists & API rate limiting
 
-### Project 3: Task Manager (HTMX)
+### Project 3: Task Manager (HTMX) — ✅ Completed
 
-**Scope:** Server-rendered SPA feel
-**Tech:** HTMX + FastAPI/Go + Jinja2/Templ + Tailwind CSS
+**Scope:** Server-rendered SPA feel with FastAPI backend
+**Tech:** HTMX 2.0 + FastAPI + Jinja2 + SortableJS + Lucide Icons + Tailwind CSS
+**Status:** ✅ Completed with full feature parity, dynamic category discovery, filter/sort toolbar, OOB toasts, responsive views, and README screenshots.
 **Features:**
 
 - Standardized Projects 1-4 UI & feature parity
-- `hx-get`/`hx-put`/`hx-post`/`hx-delete` patterns
-- Dynamic target swapping for Kanban columns & inline editing
-- Active search & infinite scroll
-- Toast notifications via HTTP response headers (`HX-Trigger`)
+- `hx-get`/`hx-put`/`hx-post`/`hx-delete` HTMX patterns
+- Dynamic target swapping for Kanban columns & inline data table rows
+- SortableJS drag-and-drop integration for status re-ordering
+- Active search & multi-parameter filter/sort toolbar
+- Dynamic category discovery from in-memory engine with case-insensitive matching
+- Out-Of-Band (OOB) Toast notifications via Jinja2 template rendering
 
 ### Project 4: Task Manager (SvelteKit)
 
@@ -590,7 +599,7 @@ Each cheatsheet should include:
 | --- | ---------------- | ------ | ----- | ---------------------------------------------------------------------------------------- |
 | 1.1 | React            | ✅     | 4     | React 19, Hooks, Context, Zustand 5, TanStack Query v5, `@hello-pangea/dnd`, Tailwind v4 |
 | 1.2 | Next.js          | ⬜     | 0     |                                                                                          |
-| 1.3 | HTMX             | ⬜     | 0     |                                                                                          |
+| 1.3 | HTMX             | ✅     | 4     | HTMX 2.0, FastAPI, Jinja2 partials, Active Search, OOB Toasts, SortableJS, Glassmorphism |
 | 1.4 | SvelteKit        | ⬜     | 0     |                                                                                          |
 | 2.1 | Node.js          | ⬜     | 0     |                                                                                          |
 | 2.2 | FastAPI          | ⬜     | 0     |                                                                                          |
@@ -619,4 +628,3 @@ By the end of this preparation:
 ---
 
 _Last Updated: 2026-07-24_
-_Next Review: After Day 4_

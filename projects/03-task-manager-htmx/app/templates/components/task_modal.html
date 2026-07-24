@@ -1,0 +1,163 @@
+<div
+  id="modal-backdrop"
+  tabindex="-1"
+  onkeydown="if(event.key === 'Escape') document.getElementById('modal-container').innerHTML=''"
+  onclick="if(event.target === this) document.getElementById('modal-container').innerHTML=''"
+  class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/80 backdrop-blur-sm animate-fade-in-scale"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-title"
+>
+  <div class="w-full max-w-lg mx-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] sm:max-h-[85vh] my-auto">
+    
+    <!-- Modal Header -->
+    <div class="flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-4 border-b border-slate-200/80 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-950/50 shrink-0">
+      <h3 id="modal-title" class="font-bold text-sm sm:text-base text-slate-900 dark:text-slate-100 flex items-center gap-2">
+        <i data-lucide="edit-3" class="w-4 h-4 sm:w-5 sm:h-5 text-indigo-500 shrink-0"></i>
+        <span>{% if is_edit %}Edit Task{% else %}Create New Task{% endif %}</span>
+      </h3>
+      <button
+        onclick="document.getElementById('modal-container').innerHTML=''"
+        type="button"
+        aria-label="Close modal"
+        class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors focus:ring-2 focus:ring-indigo-500 outline-none"
+      >
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <!-- Modal Form -->
+    <form
+      {% if is_edit %}
+        hx-put="/tasks/{{ task.id }}"
+      {% else %}
+        hx-post="/tasks"
+      {% endif %}
+      hx-target="#main-content"
+      hx-include="[name='view']"
+      class="flex flex-col min-h-0"
+    >
+      <!-- Form Fields Content Area (Auto-fit height with scroll fallback) -->
+      <div class="p-4 sm:p-6 space-y-3.5 sm:space-y-4 overflow-y-auto max-h-[calc(90vh-110px)] sm:max-h-[calc(85vh-120px)]">
+        <!-- Task Title -->
+        <div>
+          <label for="task-title" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Task Title *</label>
+          <input
+            id="task-title"
+            type="text"
+            name="title"
+            required
+            autofocus
+            value="{{ task.title if task else '' }}"
+            placeholder="e.g. Implement HTMX async endpoints"
+            class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-all"
+          >
+        </div>
+
+        <!-- Description -->
+        <div>
+          <label for="task-desc" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Description</label>
+          <textarea
+            id="task-desc"
+            name="description"
+            rows="3"
+            placeholder="Provide additional details, context, or subtasks..."
+            class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none resize-none transition-all"
+          >{{ task.description if task else '' }}</textarea>
+        </div>
+
+        <!-- Grid Row: Priority & Status -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+          <div>
+            <label for="task-priority" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Priority</label>
+            <select
+              id="task-priority"
+              name="priority"
+              class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none cursor-pointer transition-all"
+            >
+              <option value="low" {% if task and task.priority == 'low' %}selected{% endif %}>Low</option>
+              <option value="medium" {% if not task or task.priority == 'medium' %}selected{% endif %}>Medium</option>
+              <option value="high" {% if task and task.priority == 'high' %}selected{% endif %}>High</option>
+              <option value="urgent" {% if task and task.priority == 'urgent' %}selected{% endif %}>Urgent</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="task-status" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Status</label>
+            <select
+              id="task-status"
+              name="status"
+              class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none cursor-pointer transition-all"
+            >
+              <option value="todo" {% if not task or task.status == 'todo' %}selected{% endif %}>To Do</option>
+              <option value="in_progress" {% if task and task.status == 'in_progress' %}selected{% endif %}>In Progress</option>
+              <option value="completed" {% if task and task.status == 'completed' %}selected{% endif %}>Completed</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Grid Row: Category & Due Date -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+          <div>
+            <label for="task-category" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Category</label>
+            <select
+              id="task-category"
+              name="category"
+              class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none cursor-pointer transition-all"
+            >
+              <option value="Work" {% if not task or task.category == 'Work' %}selected{% endif %}>Work</option>
+              <option value="Personal" {% if task and task.category == 'Personal' %}selected{% endif %}>Personal</option>
+              <option value="DevOps" {% if task and task.category == 'DevOps' %}selected{% endif %}>DevOps</option>
+              <option value="Design" {% if task and task.category == 'Design' %}selected{% endif %}>Design</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="task-due" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Due Date</label>
+            <input
+              id="task-due"
+              type="date"
+              name="due_date"
+              value="{{ task.due_date if task and task.due_date else '' }}"
+              class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none cursor-pointer transition-all"
+            >
+          </div>
+        </div>
+
+        <!-- Tags Input -->
+        <div>
+          <label for="task-tags" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Tags (Comma-separated)</label>
+          <input
+            id="task-tags"
+            type="text"
+            name="tags_str"
+            value="{{ task.tags | join(', ') if task and task.tags else '' }}"
+            placeholder="e.g. frontend, htmx, async"
+            class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-all"
+          >
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-4 sm:px-6 py-3 sm:py-4 border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-950/50 flex items-center justify-end gap-2.5 sm:gap-3 shrink-0">
+        <button
+          onclick="document.getElementById('modal-container').innerHTML=''"
+          type="button"
+          class="px-3.5 sm:px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors focus:ring-2 focus:ring-slate-400 outline-none"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="px-4 sm:px-5 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-bold text-xs shadow-md shadow-indigo-500/25 active:scale-95 transition-all focus:ring-2 focus:ring-indigo-500 outline-none"
+        >
+          {% if is_edit %}Save Changes{% else %}Create Task{% endif %}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  if (window.lucide) { window.lucide.createIcons(); }
+</script>

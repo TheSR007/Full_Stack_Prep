@@ -1,0 +1,52 @@
+<div class="bg-white/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 sm:p-8 max-w-2xl mx-auto shadow-md space-y-6 animate-fade-in-scale">
+  <div class="border-b border-slate-100 dark:border-slate-800 pb-4">
+    <h1 class="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+      <i data-lucide="settings" class="w-5 h-5 text-indigo-500"></i>
+      App Settings & Preferences
+    </h1>
+    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+      Customize your theme and manage application state storage options.
+    </p>
+  </div>
+
+  <!-- Appearance Mode Row -->
+  <div class="bg-slate-50/80 dark:bg-slate-950/40 p-4 rounded-xl border border-slate-200/70 dark:border-slate-800/80 flex items-center justify-between">
+    <div>
+      <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">Appearance Mode</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400">Toggle between Light and Dark mode UI themes.</p>
+    </div>
+    <button
+      onclick="window.toggleTheme()"
+      type="button"
+      class="flex items-center gap-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 py-2 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-200 hover:border-indigo-500/40 transition-all shadow-xs"
+    >
+      <i data-lucide="sun" class="w-4 h-4 hidden dark:block text-amber-400"></i>
+      <i data-lucide="moon" class="w-4 h-4 block dark:hidden text-indigo-600"></i>
+      <span>Toggle Theme</span>
+    </button>
+  </div>
+
+  <!-- Reset Store Row -->
+  <div class="bg-slate-50/80 dark:bg-slate-950/40 p-4 rounded-xl border border-slate-200/70 dark:border-slate-800/80 space-y-3">
+    <div class="flex items-center gap-2">
+      <i data-lucide="database" class="w-4 h-4 text-indigo-500"></i>
+      <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">Local State Store</h3>
+    </div>
+    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+      Reset task memory store back to default seed tasks.
+    </p>
+    <button
+      hx-post="/settings/reset"
+      hx-target="#main-content"
+      hx-confirm="Are you sure you want to reset all tasks to the default seed?"
+      class="flex items-center gap-1.5 px-3.5 py-2 bg-rose-500/10 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30 rounded-xl text-xs font-bold hover:bg-rose-500/20 transition shadow-xs"
+    >
+      <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+      Reset Store to Default Seed
+    </button>
+  </div>
+</div>
+
+<script>
+  if (window.lucide) { window.lucide.createIcons(); }
+</script>

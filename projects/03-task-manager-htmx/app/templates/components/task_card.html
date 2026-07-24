@@ -1,0 +1,84 @@
+<div id="task-{{ task.id }}" class="bg-white/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 shadow-sm hover:shadow-md hover:border-indigo-500/40 transition-all flex flex-col gap-3 group">
+  <!-- Card Top Row: Priority Badge -->
+  <div class="flex items-center justify-between gap-2">
+    <div></div>
+    {% if task.priority == 'low' %}
+      <span class="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">Low</span>
+    {% elif task.priority == 'medium' %}
+      <span class="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">Medium</span>
+    {% elif task.priority == 'high' %}
+      <span class="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">High</span>
+    {% elif task.priority == 'urgent' %}
+      <span class="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center gap-1">
+        <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span> Urgent
+      </span>
+    {% endif %}
+  </div>
+
+  <!-- Card Body: Title (Clickable) & Truncated Description -->
+  <div>
+    <a
+      href="/tasks/{{ task.id }}"
+      hx-get="/tasks/{{ task.id }}"
+      hx-target="#main-content"
+      hx-push-url="true"
+      class="font-bold text-sm text-slate-900 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors block leading-snug"
+    >
+      {{ task.title }}
+    </a>
+    {% if task.description %}
+      <p class="mt-1.5 text-xs text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed">
+        {{ task.description }}
+      </p>
+    {% endif %}
+  </div>
+
+  <!-- Associated Tags -->
+  {% if task.tags %}
+    <div class="flex flex-wrap gap-1">
+      {% for tag in task.tags %}
+        <span class="bg-indigo-50 dark:bg-slate-800 text-indigo-600 dark:text-indigo-300 text-[10px] font-semibold px-2 py-0.5 rounded-md border border-indigo-200 dark:border-slate-700">
+          #{{ tag }}
+        </span>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <!-- Card Footer: Due Date Left, Category & Trash Right -->
+  <div class="pt-2 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2 text-xs">
+    <!-- Due Date Left -->
+    <div class="flex items-center gap-1.5 text-[11px] font-medium text-slate-500 dark:text-slate-400">
+      <i data-lucide="calendar" class="w-3.5 h-3.5 text-slate-400"></i>
+      <span>{{ task.due_date or "No date" }}</span>
+    </div>
+
+    <!-- Category Pill & Delete Button Right -->
+    <div class="flex items-center gap-2">
+      <span class="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+        {{ task.category }}
+      </span>
+
+      <!-- Edit Button -->
+      <button
+        hx-get="/tasks/{{ task.id }}/edit"
+        hx-target="#modal-container"
+        class="p-1 rounded text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+        title="Edit task"
+      >
+        <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+      </button>
+
+      <!-- Delete Button -->
+      <button
+        hx-delete="/tasks/{{ task.id }}"
+        hx-target="#task-{{ task.id }}"
+        hx-swap="outerHTML"
+        hx-confirm="Are you sure you want to delete this task?"
+        class="p-1 rounded text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 transition-colors"
+        title="Delete task"
+      >
+        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+      </button>
+    </div>
+  </div>
+</div>
