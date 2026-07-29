@@ -6,14 +6,14 @@
 
 ## Tech Stack Overview & Completion Status
 
-| Layer | Technologies | Status | Test Projects |
-| :--- | :--- | :--- | :--- |
-| **Frontend** | React 19, Next.js 16, HTMX 2.0, Svelte 5 / SvelteKit | ✅ Completed (4/4) | Task Manager UI Quartet (`01-react`, `02-nextjs`, `03-htmx`, `04-svelte`) |
-| **Backend** | Node.js (Express), FastAPI (Async Python), Go (Microservices) | 🟡 In Progress (0/3) | Task Manager API (`06-api-fastapi` ✅, `05-api-nodejs` ⬜, `07-api-go` ⬜) |
-| **Database** | SQLite3, PostgreSQL, MongoDB, Redis | ⬜ Not Started (0/1) | Multi-DB Task Store (`08-database-lab`) |
-| **DevOps** | Docker, Docker Compose, Kubernetes, GitHub Actions, ArgoCD | ⬜ Not Started (0/3) | Containerized Pipeline (`09-docker`, `10-k8s`, `11-ci-cd`) |
-| **AWS Cloud** | VPC, EC2, ALB, RDS, S3, Route53, Terraform | ⬜ Not Started (0/1) | Infrastructure as Code (`12-aws-terraform`) |
-| **Capstone** | Next.js, Go Microservices, Multi-DB, Docker, K8s, AWS | ⬜ Not Started (0/1) | DevDash Capstone Dashboard (`13-devdash-capstone`) |
+| Layer         | Technologies                                                  | Status               | Test Projects                                                              |
+| :------------ | :------------------------------------------------------------ | :------------------- | :------------------------------------------------------------------------- |
+| **Frontend**  | React 19, Next.js 16, HTMX 2.0, Svelte 5 / SvelteKit          | ✅ Completed (4/4)   | Task Manager UI Quartet (`01-react`, `02-nextjs`, `03-htmx`, `04-svelte`)  |
+| **Backend**   | Node.js (Express), FastAPI (Async Python), Go (Microservices) | 🟠 In Progress (1/3) | Task Manager API (`05-api-nodejs` ✅, `06-api-fastapi` ⬜, `07-api-go` ⬜) |
+| **Database**  | SQLite3, PostgreSQL, MongoDB, Redis                           | Not Started (0/1)    | Multi-DB Task Store (`08-database-lab`)                                    |
+| **DevOps**    | Docker, Docker Compose, Kubernetes, GitHub Actions, ArgoCD    | Not Started (0/3)    | Containerized Pipeline (`09-docker`, `10-k8s`, `11-ci-cd`)                 |
+| **AWS Cloud** | VPC, EC2, ALB, RDS, S3, Route53, Terraform                    | Not Started (0/1)    | Infrastructure as Code (`12-aws-terraform`)                                |
+| **Capstone**  | Next.js, Go Microservices, Multi-DB, Docker, K8s, AWS         | Not Started (0/1)    | DevDash Capstone Dashboard (`13-devdash-capstone`)                         |
 
 ---
 
@@ -22,65 +22,74 @@
 ### Phase 1: Foundation (Day 1-2)
 
 #### Day 1: Frontend Quartet
+
 - [x] **[Project 01: Task Manager (React 19 SPA)](./projects/01-task-manager-react)**
-  - **Tech:** React 19, Vite 8, React Router v7, Zustand 5, TanStack Query v5, Tailwind CSS v4, `@hello-pangea/dnd`, Lucide Icons
-  - **Features:** Glassmorphism UI, interactive Kanban Board with Drag-and-Drop, Data Table view, dynamic category discovery, Analytics dashboard, theme persistence.
+    - **Tech:** React 19, Vite 8, React Router v7, Zustand 5, TanStack Query v5, Tailwind CSS v4, `@hello-pangea/dnd`, Lucide Icons
+    - **Features:** Glassmorphism UI, interactive Kanban Board with Drag-and-Drop, Data Table view, dynamic category discovery, Analytics dashboard, theme persistence.
 - [x] **[Project 02: Task Manager (Next.js 16 App Router)](./projects/02-task-manager-nextjs)**
-  - **Tech:** Next.js 16, React 19, TypeScript, Server Actions (`"use server"`), Route Handlers, Edge Proxy Middleware, Tailwind CSS v4
-  - **Features:** Server-side rendering, streaming loading (`loading.tsx`), dynamic metadata, bulk batch operations, multi-field search, keyboard hotkeys engine (`N`, `/`, `B`, `L`, `?`, `Esc`).
+    - **Tech:** Next.js 16, React 19, TypeScript, Server Actions (`"use server"`), Route Handlers, Edge Proxy Middleware, Tailwind CSS v4
+    - **Features:** Server-side rendering, streaming loading (`loading.tsx`), dynamic metadata, bulk batch operations, multi-field search, keyboard hotkeys engine (`N`, `/`, `B`, `L`, `?`, `Esc`).
 - [x] **[Project 03: Task Manager (HTMX 2.0 + FastAPI)](./projects/03-task-manager-htmx)**
-  - **Tech:** HTMX 2.0, FastAPI (Python), Jinja2 templates, SortableJS, Lucide Icons, Tailwind CSS
-  - **Features:** Server-rendered SPA feel, `hx-get`/`hx-post`/`hx-put`/`hx-delete` target swapping, Out-Of-Band (OOB) Jinja2 toasts, active search filtering.
+    - **Tech:** HTMX 2.0, FastAPI (Python), Jinja2 templates, SortableJS, Lucide Icons, Tailwind CSS
+    - **Features:** Server-rendered SPA feel, `hx-get`/`hx-post`/`hx-put`/`hx-delete` target swapping, Out-Of-Band (OOB) Jinja2 toasts, active search filtering.
 - [x] **[Project 04: Task Manager (SvelteKit + Svelte 5)](./projects/04-task-manager-svelte)**
-  - **Tech:** Svelte 5 (Runes `$state`, `$derived`, `$effect`), SvelteKit, TypeScript, Form Actions (`use:enhance`), REST API endpoints (`+server.ts`), View Transitions API (`onNavigate`), `svelte-dnd-action`
-  - **Features:** Svelte 5 Runes store, progressive enhancement, custom error boundary (`+error.svelte`), server handle hook (`hooks.server.ts`).
+    - **Tech:** Svelte 5 (Runes `$state`, `$derived`, `$effect`), SvelteKit, TypeScript, Form Actions (`use:enhance`), REST API endpoints (`+server.ts`), View Transitions API (`onNavigate`), `svelte-dnd-action`
+    - **Features:** Svelte 5 Runes store, progressive enhancement, custom error boundary (`+error.svelte`), server handle hook (`hooks.server.ts`).
 
 #### Day 2: Backend Trio
-- [ ] **Project 05: Task Manager API (Node.js / Express)** — `projects/05-api-nodejs/`
-  - **Tech:** Express, TypeScript, Prisma ORM, Zod validation, JWT Auth, Winston logging
+
+- [x] **[Project 05: Task Manager API (Node.js / Express)](./projects/05-api-nodejs)**
+    - **Tech:** Express 5, TypeScript 5, Prisma 6 ORM, Zod 3, JWT (Bearer + HttpOnly Cookies), Winston, Morgan, Swagger UI, Jest, Supertest
+    - **Features:** User Auth (JWT + HttpOnly cookies), Task CRUD, subtask checklist, activity log tracking, bulk actions, dynamic category discovery, analytics metrics engine, rate limiting, OpenAPI Swagger UI (/api-docs), 100% passing Jest test suite.
 - [ ] **Project 06: Task Manager API (FastAPI Async)** — `projects/06-api-fastapi/`
-  - **Tech:** FastAPI, Python async, Pydantic v2, CORS middleware, OpenAPI docs
+    - **Tech:** FastAPI, Python async, Pydantic v2, CORS middleware, OpenAPI docs
 - [ ] **Project 07: Task Manager API (Go Microservices)** — `projects/07-api-go-microservices/`
-  - **Tech:** Go, Gin/Fiber, gRPC, NATS/RabbitMQ, User Service + Task Service
+    - **Tech:** Go, Gin/Fiber, gRPC, NATS/RabbitMQ, User Service + Task Service
 
 ---
 
 ### Phase 2: Data Layer (Day 3)
+
 - [ ] **Project 08: Database Lab & Storage Benchmarking** — `projects/08-database-lab/`
-  - **Tech:** SQLite3, PostgreSQL, MongoDB, Redis
-  - **Scope:** ACID vs BASE transaction models, query performance benchmarks, Redis caching layer, full-text search comparison.
+    - **Tech:** SQLite3, PostgreSQL, MongoDB, Redis
+    - **Scope:** ACID vs BASE transaction models, query performance benchmarks, Redis caching layer, full-text search comparison.
 
 ---
 
 ### Phase 3: Containerization & Orchestration (Day 4)
+
 - [ ] **Project 09: Multi-Service Docker Compose Stack** — `projects/09-docker-compose-stack/`
-  - **Tech:** Docker, Docker Compose, Nginx reverse proxy, Prometheus, Grafana
+    - **Tech:** Docker, Docker Compose, Nginx reverse proxy, Prometheus, Grafana
 - [ ] **Project 10: Kubernetes Production Manifests** — `projects/10-k8s-manifests/`
-  - **Tech:** K8s Deployments, Services, ConfigMaps, Secrets, Ingress TLS, HPA
+    - **Tech:** K8s Deployments, Services, ConfigMaps, Secrets, Ingress TLS, HPA
 
 ---
 
 ### Phase 4: CI/CD Automation (Day 5)
+
 - [ ] **Project 11: GitHub Actions Pipeline & GitOps** — `projects/11-github-actions-ci/`
-  - **Tech:** GitHub Actions, Trivy security scan, SonarQube, ArgoCD GitOps sync
+    - **Tech:** GitHub Actions, Trivy security scan, SonarQube, ArgoCD GitOps sync
 
 ---
 
 ### Phase 5: Cloud Infrastructure (Day 6)
+
 - [ ] **Project 12: AWS Infrastructure as Code (Terraform)** — `projects/12-aws-terraform/`
-  - **Tech:** Terraform, AWS VPC (3-tier), EC2 ASG, RDS PostgreSQL, ALB, S3, CloudFront, Route53
+    - **Tech:** Terraform, AWS VPC (3-tier), EC2 ASG, RDS PostgreSQL, ALB, S3, CloudFront, Route53
 
 ---
 
 ### Phase 6: Capstone Integration (Day 7)
+
 - [ ] **Project 13: DevDash Developer Productivity Dashboard** — `projects/13-devdash-capstone/`
-  - **Tech:** Next.js 16, Go API Gateway, Node.js + FastAPI microservices, PostgreSQL + Redis + MongoDB, K8s, AWS deployment
+    - **Tech:** Next.js 16, Go API Gateway, Node.js + FastAPI microservices, PostgreSQL + Redis + MongoDB, K8s, AWS deployment
 
 ---
 
-## Design System & UI/UX Standards
+## Frontend Design System & UI/UX Standards
 
 All frontend implementations (React, Next.js, HTMX, SvelteKit) strictly follow **[DESIGN.md](./projects/DESIGN.md)** (`ui-ux-pro-max` standards):
+
 - **Glassmorphism**: `.glass-panel` backdrop-blur (`12px`), rounded containers (`rounded-2xl`).
 - **Color Palettes**: Slate background tokens (`slate-50` light / `#070a13` dark mode), Indigo/Violet interactive gradients, semantic priority badges (Emerald Low, Sky Medium, Amber High, Rose Urgent).
 - **Dynamic Category Extraction**: Deduplicated case-insensitive category discovery with alphabetical sorting.
@@ -88,32 +97,50 @@ All frontend implementations (React, Next.js, HTMX, SvelteKit) strictly follow *
 
 ---
 
-## 📚 Cheatsheets & Reference Guides
+## Backend API Standards & Specification
+
+All backend implementations (Node.js, FastAPI, Go Microservices) strictly follow **[API_DOCS.md](./projects/API_DOCS.md)**:
+
+- **Base Endpoint Architecture**: Standardized `/api/v1` RESTful JSON route hierarchy.
+- **Interactive OpenAPI/Swagger**: Live Swagger UI documentation hosted at `/api-docs`.
+- **Response Envelope**: Standardized `{ success: true, data, meta }` wrapper for data and `{ success: false, error: { code, message, details } }` for errors.
+- **Dual-Token Authentication**: Short-lived JWT Access Tokens (`Authorization: Bearer <token>`, 15m) + Long-lived Refresh Tokens stored in database & delivered via secure HttpOnly cookie (`refreshToken`, 7d).
+- **Role-Based Access Control**: Granular `USER` and `ADMIN` role access guards.
+- **Standardized Error Handling**: Unified error codes (`UNAUTHORIZED`, `FORBIDDEN`, `NOT_FOUND`, `VALIDATION_ERROR`, `CONFLICT`, `RATE_LIMITED`, `INTERNAL_SERVER_ERROR`).
+- **Data Parity**: Standardized CRUD schemas for Tasks, Subtasks, Activity History, Dynamic Categories, and Analytics metrics across all backend implementations.
+
+---
+
+## Cheatsheets & Reference Guides
 
 Comprehensive reference guides created during hands-on practice:
+
+- [Global Backend REST API Specification (API_DOCS.md)](./projects/API_DOCS.md)
+- [Global UI/UX Design System (DESIGN.md)](./projects/DESIGN.md)
+- [Node.js & Express REST API Cheatsheet](./cheatsheets/nodejs.md)
 - [SvelteKit & Svelte 5 Cheatsheet](./cheatsheets/sveltkit.md)
 - [React & Vite Setup Cheatsheet](./cheatsheets/react.md)
 - [Next.js App Router Cheatsheet](./cheatsheets/nextjs.md)
 
 ---
 
-## 📈 Daily Progress Summary
+## Daily Progress Summary
 
-| Day | Topic | Status | Key Deliverables |
-| :--- | :--- | :--- | :--- |
-| **1.1** | React 19 SPA | ✅ Completed | React 19, Zustand 5, TanStack Query, DnD, Tailwind v4 |
-| **1.2** | Next.js 16 App Router | ✅ Completed | App Router, Server Actions, Route Handlers, Edge Proxy, Hotkeys |
-| **1.3** | HTMX 2.0 + FastAPI | ✅ Completed | Server-rendered SPA, OOB Jinja2 Toasts, SortableJS |
-| **1.4** | SvelteKit + Svelte 5 | ✅ Completed | Svelte 5 Runes, Form Actions, REST API, View Transitions |
-| **2.1** | Node.js / Express | ⬜ Not Started | Express REST API, Prisma ORM, Zod, JWT |
-| **2.2** | FastAPI Backend | ⬜ Not Started | Python async API endpoints, Pydantic v2 |
-| **2.3** | Go Microservices | ⬜ Not Started | Go gRPC microservices & gateway |
-| **3** | Database Lab | ⬜ Not Started | PostgreSQL, MongoDB, Redis caching benchmarks |
-| **4** | Docker & Kubernetes | ⬜ Not Started | Compose multi-stage builds & K8s manifests |
-| **5** | CI/CD & ArgoCD | ⬜ Not Started | GitHub Actions test/build/security pipeline |
-| **6** | AWS Terraform | ⬜ Not Started | 3-tier VPC, EC2 ASG, RDS, ALB, S3, Route53 |
-| **7** | DevDash Capstone | ⬜ Not Started | Full-stack capstone integration project |
+| Day     | Topic                 | Status         | Key Deliverables                                                              |
+| :------ | :-------------------- | :------------- | :---------------------------------------------------------------------------- |
+| **1.1** | React 19 SPA          | ✅ Completed   | React 19, Zustand 5, TanStack Query, DnD, Tailwind v4                         |
+| **1.2** | Next.js 16 App Router | ✅ Completed   | App Router, Server Actions, Route Handlers, Edge Proxy, Hotkeys               |
+| **1.3** | HTMX 2.0 + FastAPI    | ✅ Completed   | Server-rendered SPA, OOB Jinja2 Toasts, SortableJS                            |
+| **1.4** | SvelteKit + Svelte 5  | ✅ Completed   | Svelte 5 Runes, Form Actions, REST API, View Transitions                      |
+| **2.1** | Node.js / Express     | ✅ Completed   | Express REST API, Prisma 6 ORM, Zod 3, JWT HttpOnly Cookies, Swagger UI, Jest |
+| **2.2** | FastAPI Backend       | ⬜ Not Started | Python async API endpoints, Pydantic v2                                       |
+| **2.3** | Go Microservices      | ⬜ Not Started | Go gRPC microservices & gateway                                               |
+| **3**   | Database Lab          | ⬜ Not Started | PostgreSQL, MongoDB, Redis caching benchmarks                                 |
+| **4**   | Docker & Kubernetes   | ⬜ Not Started | Compose multi-stage builds & K8s manifests                                    |
+| **5**   | CI/CD & ArgoCD        | ⬜ Not Started | GitHub Actions test/build/security pipeline                                   |
+| **6**   | AWS Terraform         | ⬜ Not Started | 3-tier VPC, EC2 ASG, RDS, ALB, S3, Route53                                    |
+| **7**   | DevDash Capstone      | ⬜ Not Started | Full-stack capstone integration project                                       |
 
 ---
 
-_Last Updated: 2026-07-25_
+_Last Updated: 2026-07-30_

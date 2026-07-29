@@ -4,13 +4,13 @@
 
 ## Tech Stack Overview
 
-| Layer        | Technologies                                        | Status         | Test Project                               |
-| ------------ | --------------------------------------------------- | -------------- | ------------------------------------------ |
-| **Frontend** | Next.js, React, HTMX, Svelte                        | ✅ Completed   | Task Manager UI ✅                         |
-| **Backend**  | Node.js, Go (Microservices), FastAPI                | 🟡 In Progress | Task Manager API (FastAPI HTMX Backend ✅) |
-| **Database** | SQLite3, PostgreSQL, MongoDB, Redis                 | ⬜ Not Started | Multi-DB Task Store                        |
-| **DevOps**   | Docker, Docker Compose, K8s, GitHub Actions, ArgoCD | ⬜ Not Started | Containerized Pipeline                     |
-| **AWS**      | VPC, EC2, ALB, RDS, S3, Route53                     | ⬜ Not Started | Cloud Deployment                           |
+| Layer        | Technologies                                        | Status         | Test Project                             |
+| ------------ | --------------------------------------------------- | -------------- | ---------------------------------------- |
+| **Frontend** | Next.js, React, HTMX, Svelte                        | ✅ Completed   | Task Manager UI ✅                       |
+| **Backend**  | Node.js, Go (Microservices), FastAPI                | 🟠 In Progress | Task Manager API (Node.js API Completed) |
+| **Database** | SQLite3, PostgreSQL, MongoDB, Redis                 | ⬜ Not Started | Multi-DB Task Store                      |
+| **DevOps**   | Docker, Docker Compose, K8s, GitHub Actions, ArgoCD | ⬜ Not Started | Containerized Pipeline                   |
+| **AWS**      | VPC, EC2, ALB, RDS, S3, Route53                     | ⬜ Not Started | Cloud Deployment                         |
 
 ---
 
@@ -166,6 +166,7 @@ hackathon-prep/
 │   └── sveltekit.md
 ├── projects/
 │   ├── DESIGN.md            # Global Source of Truth for Projects 1-4 UI/UX
+│   ├── API_DOCS.md          # Global Source of Truth for Projects 5-7 REST API
 │   ├── 01-task-manager-react/
 │   ├── 02-task-manager-nextjs/
 │   ├── 03-task-manager-htmx/
@@ -205,6 +206,20 @@ All four implementations (React, Next.js, HTMX, SvelteKit) share the **exact sam
 - **Compact Auto-Fitting Modals**: Centered overlays with fixed header, scrollable body, and fixed accessible action footer.
 - **Dark Mode & Responsive UI**: Seamless dark/light theme toggle and mobile responsiveness adhering to `DESIGN.md`.
 - **Toast Notifications**: Dynamic action feedback toasts (`success`, `info`, `warning`).
+
+---
+
+### Standardized Core Features across Backend Projects (5-7)
+
+All three backend implementations (Node.js, FastAPI, Go Microservices) strictly adhere to **[API_DOCS.md](./projects/API_DOCS.md)**:
+
+- **RESTful Endpoint Schema**: Uniform `/api/v1` route paths (`/auth`, `/tasks`, `/categories`, `/analytics`).
+- **OpenAPI / Swagger UI**: Interactive Swagger documentation available at `/api-docs`.
+- **Response Envelope Standard**: Standardized `{ success: true, data, meta }` for success and `{ success: false, error: { code, message, details } }` for errors.
+- **Dual-Token Authentication**: Short-lived JWT Access Tokens (`Authorization: Bearer <token>`, 15m) + Long-lived Refresh Tokens stored in database and delivered via secure HttpOnly cookie (`refreshToken`, 7d).
+- **Role-Based Access Control (RBAC)**: Role checks (`USER` and `ADMIN`) restricting resources based on account privileges.
+- **Validation & Error Normalization**: Schema validation (Zod in Node.js, Pydantic in FastAPI, Struct validation in Go) and standardized error codes (`UNAUTHORIZED`, `FORBIDDEN`, `NOT_FOUND`, `VALIDATION_ERROR`, `CONFLICT`, `RATE_LIMITED`, `INTERNAL_SERVER_ERROR`).
+- **Entity & Analytics Parity**: Exact data parity across Tasks, Subtasks, Activity Log history, Dynamic Categories, and Analytics metrics calculations.
 
 ---
 
@@ -269,20 +284,20 @@ All four implementations (React, Next.js, HTMX, SvelteKit) share the **exact sam
 - View Transitions API integration (`onNavigate`) in layout
 - Custom 404 / 500 error boundary page (`+error.svelte`)
 
-### Project 5: API (Node.js)
+### Project 5: API (Node.js) - Completed
 
 **Scope:** Production-ready REST API
-**Tech:** Express + TypeScript + Prisma + Zod
+**Tech:** Express 5, TypeScript 5, Prisma 6 ORM, Zod 3, JWT (Bearer + HttpOnly Cookies), Winston, Morgan, Swagger UI, Jest, Supertest
+**Status:** Completed with full REST API endpoints, JWT auth with HttpOnly refresh cookies, Zod validation, Prisma 6 ORM, Winston logging, OpenAPI Swagger UI (/api-docs), global API_DOCS.md, and 100% passing Jest test suite.
 **Features:**
 
-- JWT authentication & refresh tokens
-- Role-based access control (RBAC)
-- Request validation (Zod)
-- Error handling middleware
-- Rate limiting (express-rate-limit)
-- OpenAPI/Swagger docs
-- Winston logging
-- Graceful shutdown
+- User Auth endpoints (/auth/register, /auth/login, /auth/refresh, /auth/logout, /auth/me) with bcrypt password hashing and HttpOnly cookie management
+- Task CRUD endpoints (/tasks, /tasks/:id) with pagination, search, priority/category filtering, and multi-criteria sorting
+- Bulk batch operation endpoints (/tasks/bulk-delete, /tasks/bulk-update-status)
+- Subtask checklist endpoints (/tasks/:id/subtasks, /tasks/:id/subtasks/:subtaskId) and automatic activity logging
+- Analytics endpoint (/analytics) calculating workload totals, completion velocity, completion percentage rate, and priority distribution
+- Security & Quality: Helmet security headers, CORS origin restrictions, Express rate limiters, centralized operational error handler, Winston logger
+- Interactive OpenAPI 3.0 Swagger UI documentation (/api-docs) and comprehensive Jest test suite (tests/auth.test.ts, tests/tasks.test.ts, tests/analytics.test.ts)
 
 ### Project 6: API (FastAPI)
 
@@ -607,7 +622,7 @@ Each cheatsheet should include:
 | 1.2 | Next.js          | ✅     | 1.5   | Next.js 15 App Router, Server Actions, Route Handlers, Edge Middleware, Metadata, Streaming, Error Boundaries, Zustand, DnD     |
 | 1.3 | HTMX             | ✅     | 2     | HTMX 2.0, FastAPI, Jinja2 partials, Active Search, OOB Toasts, SortableJS, Glassmorphism                                        |
 | 1.4 | SvelteKit        | ✅     | 2     | Svelte 5 Runes ($state, $derived, $effect), Form Actions, Server Load, REST API (+server.ts), View Transitions, hooks.server.ts |
-| 2.1 | Node.js          | ⬜     | 0     |                                                                                                                                 |
+| 2.1 | Node.js          | ✅     | 2     | Express 5, TypeScript 5, Prisma 6 ORM, Zod 3, JWT HttpOnly Cookies, Winston, OpenAPI Swagger UI, Jest                           |
 | 2.2 | FastAPI          | ⬜     | 0     |                                                                                                                                 |
 | 2.3 | Go Microservices | ⬜     | 0     |                                                                                                                                 |
 | 3   | Databases        | ⬜     | 0     |                                                                                                                                 |
@@ -633,4 +648,4 @@ By the end of this preparation:
 
 ---
 
-_Last Updated: 2026-07-25_
+_Last Updated: 2026-07-30_

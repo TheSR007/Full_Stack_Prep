@@ -72,7 +72,7 @@ Appearance mode customization (Light / Dark mode toggle) and local Zustand state
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Node.js 18+ and `npm`
