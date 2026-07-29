@@ -4,13 +4,13 @@
 
 ## Tech Stack Overview
 
-| Layer        | Technologies                                        | Status         | Test Project                             |
-| ------------ | --------------------------------------------------- | -------------- | ---------------------------------------- |
-| **Frontend** | Next.js, React, HTMX, Svelte                        | ✅ Completed   | Task Manager UI ✅                       |
-| **Backend**  | Node.js, Go (Microservices), FastAPI                | 🟠 In Progress | Task Manager API (Node.js API Completed) |
-| **Database** | SQLite3, PostgreSQL, MongoDB, Redis                 | ⬜ Not Started | Multi-DB Task Store                      |
-| **DevOps**   | Docker, Docker Compose, K8s, GitHub Actions, ArgoCD | ⬜ Not Started | Containerized Pipeline                   |
-| **AWS**      | VPC, EC2, ALB, RDS, S3, Route53                     | ⬜ Not Started | Cloud Deployment                         |
+| Layer        | Technologies                                        | Status         | Test Project                                        |
+| ------------ | --------------------------------------------------- | -------------- | --------------------------------------------------- |
+| **Frontend** | Next.js, React, HTMX, Svelte                        | ✅ Completed   | Task Manager UI ✅                                  |
+| **Backend**  | Node.js, Go (Microservices), FastAPI                | ✅ Completed   | Task Manager API (Node.js & FastAPI APIs Completed) |
+| **Database** | SQLite3, PostgreSQL, MongoDB, Redis                 | ⬜ Not Started | Multi-DB Task Store                                 |
+| **DevOps**   | Docker, Docker Compose, K8s, GitHub Actions, ArgoCD | ⬜ Not Started | Containerized Pipeline                              |
+| **AWS**      | VPC, EC2, ALB, RDS, S3, Route53                     | ⬜ Not Started | Cloud Deployment                                    |
 
 ---
 
@@ -42,9 +42,9 @@
 
 **Deliverable:** Three versions of Task Manager API
 
-- `api-nodejs/` - Express + TypeScript
-- `api-fastapi/` - Python async API
-- `api-go/` - Go microservices (User Service + Task Service)
+- `05-api-nodejs/` - ✅ **Completed** (Express + TypeScript + Prisma 6 + Zod + JWT Cookies + Winston + Swagger UI + Jest)
+- `06-api-fastapi/` - ✅ **Completed** (FastAPI + Python async + SQLAlchemy 2.0 + Alembic + Pydantic v2 + JWT Cookies + WebSockets + BackgroundTasks + Prometheus + Pytest)
+- `07-api-go-microservices/` - Go microservices (User Service + Task Service)
 
 ---
 
@@ -284,34 +284,36 @@ All three backend implementations (Node.js, FastAPI, Go Microservices) strictly 
 - View Transitions API integration (`onNavigate`) in layout
 - Custom 404 / 500 error boundary page (`+error.svelte`)
 
-### Project 5: API (Node.js) - Completed
+### Project 5: API (Node.js) - ✅ Completed
 
 **Scope:** Production-ready REST API
 **Tech:** Express 5, TypeScript 5, Prisma 6 ORM, Zod 3, JWT (Bearer + HttpOnly Cookies), Winston, Morgan, Swagger UI, Jest, Supertest
-**Status:** Completed with full REST API endpoints, JWT auth with HttpOnly refresh cookies, Zod validation, Prisma 6 ORM, Winston logging, OpenAPI Swagger UI (/api-docs), global API_DOCS.md, and 100% passing Jest test suite.
+**Status:** Completed with full REST API endpoints, JWT auth with HttpOnly refresh cookies, Zod validation, Prisma 6 ORM, Winston logging, OpenAPI Swagger UI (`/api-docs`), global `API_DOCS.md`, and 100% passing Jest test suite.
 **Features:**
 
-- User Auth endpoints (/auth/register, /auth/login, /auth/refresh, /auth/logout, /auth/me) with bcrypt password hashing and HttpOnly cookie management
-- Task CRUD endpoints (/tasks, /tasks/:id) with pagination, search, priority/category filtering, and multi-criteria sorting
-- Bulk batch operation endpoints (/tasks/bulk-delete, /tasks/bulk-update-status)
-- Subtask checklist endpoints (/tasks/:id/subtasks, /tasks/:id/subtasks/:subtaskId) and automatic activity logging
-- Analytics endpoint (/analytics) calculating workload totals, completion velocity, completion percentage rate, and priority distribution
+- User Auth endpoints (`/auth/register`, `/auth/login`, `/auth/refresh`, `/auth/logout`, `/auth/me`) with bcrypt password hashing and HttpOnly cookie management
+- Task CRUD endpoints (`/tasks`, `/tasks/:id`) with pagination, search, priority/category filtering, and multi-criteria sorting
+- Bulk batch operation endpoints (`/tasks/bulk-delete`, `/tasks/bulk-update-status`)
+- Subtask checklist endpoints (`/tasks/:id/subtasks`, `/tasks/:id/subtasks/:subtaskId`) and automatic activity logging
+- Analytics endpoint (`/analytics`) calculating workload totals, completion velocity, completion percentage rate, and priority distribution
 - Security & Quality: Helmet security headers, CORS origin restrictions, Express rate limiters, centralized operational error handler, Winston logger
-- Interactive OpenAPI 3.0 Swagger UI documentation (/api-docs) and comprehensive Jest test suite (tests/auth.test.ts, tests/tasks.test.ts, tests/analytics.test.ts)
+- Interactive OpenAPI 3.0 Swagger UI documentation (`/api-docs`) and comprehensive Jest test suite (`tests/auth.test.ts`, `tests/tasks.test.ts`, `tests/analytics.test.ts`)
 
-### Project 6: API (FastAPI)
+### Project 6: API (FastAPI) - ✅ Completed
 
-**Scope:** Async Python API
-**Tech:** FastAPI + SQLAlchemy 2.0 + Alembic + Pydantic v2
+**Scope:** Production-ready Async Python API
+**Tech:** FastAPI + SQLAlchemy 2.0 Async + Alembic + Pydantic v2 + Pytest + Uvicorn
+**Status:** Completed with full REST API endpoints adhering to `API_DOCS.md`, JWT auth with HttpOnly refresh cookies, Pydantic v2 validation, WebSockets, background tasks, file attachment upload/download, Prometheus metrics, OpenAPI Swagger UI (/api-docs), and comprehensive Pytest test suite.
 **Features:**
 
-- Async database operations
-- Background tasks (Celery integration)
-- WebSocket endpoint for real-time updates
-- File upload/download
-- Dependency injection patterns
-- Custom middleware
-- Prometheus metrics
+- Async database operations with SQLAlchemy 2.0 and aiosqlite
+- Background tasks (FastAPI BackgroundTasks & Celery integration)
+- WebSocket endpoint (`/api/v1/ws/tasks`) for real-time task updates
+- File attachment upload and streaming download (`/api/v1/files/download/{file_id}`)
+- Dependency injection patterns (`get_async_db`, `get_current_user`, `require_admin`)
+- Custom middleware (`X-Response-Time`, standardized error envelope normalization)
+- Prometheus metrics instrumentation (`/metrics`)
+- OpenAPI / Swagger UI custom path (`/api-docs`) and comprehensive Pytest suite
 
 ### Project 7: API (Go Microservices)
 
@@ -623,7 +625,7 @@ Each cheatsheet should include:
 | 1.3 | HTMX             | ✅     | 2     | HTMX 2.0, FastAPI, Jinja2 partials, Active Search, OOB Toasts, SortableJS, Glassmorphism                                        |
 | 1.4 | SvelteKit        | ✅     | 2     | Svelte 5 Runes ($state, $derived, $effect), Form Actions, Server Load, REST API (+server.ts), View Transitions, hooks.server.ts |
 | 2.1 | Node.js          | ✅     | 2     | Express 5, TypeScript 5, Prisma 6 ORM, Zod 3, JWT HttpOnly Cookies, Winston, OpenAPI Swagger UI, Jest                           |
-| 2.2 | FastAPI          | ⬜     | 0     |                                                                                                                                 |
+| 2.2 | FastAPI          | ✅     | 1     | FastAPI, SQLAlchemy 2.0 Async, Pydantic v2, JWT HttpOnly Cookies, WebSockets, BackgroundTasks, Prometheus, Pytest               |
 | 2.3 | Go Microservices | ⬜     | 0     |                                                                                                                                 |
 | 3   | Databases        | ⬜     | 0     |                                                                                                                                 |
 | 4   | Docker & K8s     | ⬜     | 0     |                                                                                                                                 |

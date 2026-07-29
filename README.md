@@ -9,7 +9,7 @@
 | Layer         | Technologies                                                  | Status               | Test Projects                                                              |
 | :------------ | :------------------------------------------------------------ | :------------------- | :------------------------------------------------------------------------- |
 | **Frontend**  | React 19, Next.js 16, HTMX 2.0, Svelte 5 / SvelteKit          | ✅ Completed (4/4)   | Task Manager UI Quartet (`01-react`, `02-nextjs`, `03-htmx`, `04-svelte`)  |
-| **Backend**   | Node.js (Express), FastAPI (Async Python), Go (Microservices) | 🟠 In Progress (1/3) | Task Manager API (`05-api-nodejs` ✅, `06-api-fastapi` ⬜, `07-api-go` ⬜) |
+| **Backend**   | Node.js (Express), FastAPI (Async Python), Go (Microservices) | 🟠 In Progress (2/3) | Task Manager API (`05-api-nodejs` ✅, `06-api-fastapi` ✅, `07-api-go` ⬜) |
 | **Database**  | SQLite3, PostgreSQL, MongoDB, Redis                           | Not Started (0/1)    | Multi-DB Task Store (`08-database-lab`)                                    |
 | **DevOps**    | Docker, Docker Compose, Kubernetes, GitHub Actions, ArgoCD    | Not Started (0/3)    | Containerized Pipeline (`09-docker`, `10-k8s`, `11-ci-cd`)                 |
 | **AWS Cloud** | VPC, EC2, ALB, RDS, S3, Route53, Terraform                    | Not Started (0/1)    | Infrastructure as Code (`12-aws-terraform`)                                |
@@ -41,8 +41,9 @@
 - [x] **[Project 05: Task Manager API (Node.js / Express)](./projects/05-api-nodejs)**
     - **Tech:** Express 5, TypeScript 5, Prisma 6 ORM, Zod 3, JWT (Bearer + HttpOnly Cookies), Winston, Morgan, Swagger UI, Jest, Supertest
     - **Features:** User Auth (JWT + HttpOnly cookies), Task CRUD, subtask checklist, activity log tracking, bulk actions, dynamic category discovery, analytics metrics engine, rate limiting, OpenAPI Swagger UI (/api-docs), 100% passing Jest test suite.
-- [ ] **Project 06: Task Manager API (FastAPI Async)** — `projects/06-api-fastapi/`
-    - **Tech:** FastAPI, Python async, Pydantic v2, CORS middleware, OpenAPI docs
+- [x] **[Project 06: Task Manager API (FastAPI Async)](./projects/06-api-fastapi)**
+    - **Tech:** FastAPI, Python async, Pydantic v2, SQLAlchemy 2.0 Async, Alembic, JWT (Bearer + HttpOnly Cookies), WebSockets, BackgroundTasks, Prometheus, Pytest, Uvicorn
+    - **Features:** User Auth (JWT + HttpOnly cookies), Task CRUD, subtask checklist, activity log tracking, bulk actions, dynamic category discovery, file attachment upload/download, WebSockets (`/api/v1/ws/tasks`), Prometheus metrics (`/metrics`), OpenAPI Swagger UI (/api-docs), 100% passing Pytest test suite.
 - [ ] **Project 07: Task Manager API (Go Microservices)** — `projects/07-api-go-microservices/`
     - **Tech:** Go, Gin/Fiber, gRPC, NATS/RabbitMQ, User Service + Task Service
 
@@ -117,6 +118,7 @@ Comprehensive reference guides created during hands-on practice:
 
 - [Global Backend REST API Specification (API_DOCS.md)](./projects/API_DOCS.md)
 - [Global UI/UX Design System (DESIGN.md)](./projects/DESIGN.md)
+- [FastAPI & SQLAlchemy 2.0 Async Cheatsheet](./cheatsheets/fastapi.md)
 - [Node.js & Express REST API Cheatsheet](./cheatsheets/nodejs.md)
 - [SvelteKit & Svelte 5 Cheatsheet](./cheatsheets/sveltkit.md)
 - [React & Vite Setup Cheatsheet](./cheatsheets/react.md)
@@ -133,7 +135,7 @@ Comprehensive reference guides created during hands-on practice:
 | **1.3** | HTMX 2.0 + FastAPI    | ✅ Completed   | Server-rendered SPA, OOB Jinja2 Toasts, SortableJS                            |
 | **1.4** | SvelteKit + Svelte 5  | ✅ Completed   | Svelte 5 Runes, Form Actions, REST API, View Transitions                      |
 | **2.1** | Node.js / Express     | ✅ Completed   | Express REST API, Prisma 6 ORM, Zod 3, JWT HttpOnly Cookies, Swagger UI, Jest |
-| **2.2** | FastAPI Backend       | ⬜ Not Started | Python async API endpoints, Pydantic v2                                       |
+| **2.2** | FastAPI Backend       | ✅ Completed   | Python async API endpoints, Pydantic v2                                       |
 | **2.3** | Go Microservices      | ⬜ Not Started | Go gRPC microservices & gateway                                               |
 | **3**   | Database Lab          | ⬜ Not Started | PostgreSQL, MongoDB, Redis caching benchmarks                                 |
 | **4**   | Docker & Kubernetes   | ⬜ Not Started | Compose multi-stage builds & K8s manifests                                    |
