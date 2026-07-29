@@ -4,13 +4,13 @@
 
 ## Tech Stack Overview
 
-| Layer        | Technologies                                        | Status         | Test Project                                        |
-| ------------ | --------------------------------------------------- | -------------- | --------------------------------------------------- |
-| **Frontend** | Next.js, React, HTMX, Svelte                        | ✅ Completed   | Task Manager UI ✅                                  |
-| **Backend**  | Node.js, Go (Microservices), FastAPI                | ✅ Completed   | Task Manager API (Node.js & FastAPI APIs Completed) |
-| **Database** | SQLite3, PostgreSQL, MongoDB, Redis                 | ⬜ Not Started | Multi-DB Task Store                                 |
-| **DevOps**   | Docker, Docker Compose, K8s, GitHub Actions, ArgoCD | ⬜ Not Started | Containerized Pipeline                              |
-| **AWS**      | VPC, EC2, ALB, RDS, S3, Route53                     | ⬜ Not Started | Cloud Deployment                                    |
+| Layer        | Technologies                                        | Status         | Test Project           |
+| ------------ | --------------------------------------------------- | -------------- | ---------------------- |
+| **Frontend** | Next.js, React, HTMX, Svelte                        | ✅ Completed   | Task Manager UI ✅     |
+| **Backend**  | Node.js, Go (Microservices), FastAPI                | ✅ Completed   | Task Manager API ✅    |
+| **Database** | SQLite3, PostgreSQL, MongoDB, Redis                 | ⬜ Not Started | Multi-DB Task Store    |
+| **DevOps**   | Docker, Docker Compose, K8s, GitHub Actions, ArgoCD | ⬜ Not Started | Containerized Pipeline |
+| **AWS**      | VPC, EC2, ALB, RDS, S3, Route53                     | ⬜ Not Started | Cloud Deployment       |
 
 ---
 
@@ -44,7 +44,7 @@
 
 - `05-api-nodejs/` - ✅ **Completed** (Express + TypeScript + Prisma 6 + Zod + JWT Cookies + Winston + Swagger UI + Jest)
 - `06-api-fastapi/` - ✅ **Completed** (FastAPI + Python async + SQLAlchemy 2.0 + Alembic + Pydantic v2 + JWT Cookies + WebSockets + BackgroundTasks + Prometheus + Pytest)
-- `07-api-go-microservices/` - Go microservices (User Service + Task Service)
+- `07-api-go-microservices/` - ✅ **Completed** (Go 1.22 + Go Fiber v2 + gRPC + Protobuf + GORM SQLite3 + JWT Cookies + WebSockets + Prometheus + Swag Swagger UI + Go Test Suite)
 
 ---
 
@@ -315,23 +315,30 @@ All three backend implementations (Node.js, FastAPI, Go Microservices) strictly 
 - Prometheus metrics instrumentation (`/metrics`)
 - OpenAPI / Swagger UI custom path (`/api-docs`) and comprehensive Pytest suite
 
-### Project 7: API (Go Microservices)
+### Project 7: API (Go Microservices) - ✅ Completed
 
 **Scope:** Distributed system architecture
-**Tech:** Go + Gin + gRPC + PostgreSQL + NATS/RabbitMQ
+**Tech:** Go 1.22 + Go Fiber v2 + gRPC + Protobuf + GORM SQLite3 (PostgreSQL Ready) + Prometheus + Swag Swagger UI + Go Testing
+**Status:** Completed with full REST API endpoints adhering to `API_DOCS.md`, JWT auth with HttpOnly refresh cookies, GORM SQLite3 data access, WebSockets, background event subscribers, Prometheus metrics (`/metrics`), Swag OpenAPI Swagger UI (`/api-docs/`), and comprehensive Go test suite.
 **Services:**
 
-- `api-gateway/` - HTTP → gRPC translation
-- `user-service/` - Auth & user management
-- `task-service/` - Task CRUD + business logic
-- `notification-service/` - Email/push notifications
-- `shared/` - Common packages (models, middleware, utils)
+- `api-gateway/` - Go Fiber HTTP Gateway with Bearer JWT Auth, CORS, Swag UI (`/api-docs/`), Prometheus metrics (`/metrics`), and WebSocket broadcaster (`/api/v1/ws/tasks`)
+- `user-service/` - User registration, bcrypt password hashing, JWT signing, token refresh, and user profile management with GORM SQLite3 repository
+- `task-service/` - Task CRUD, subtask checklist, dynamic category discovery, bulk actions, file attachment management, and workload analytics engine with GORM SQLite3 repository
+- `notification-service/` - Event consumer listening for task and auth mutations
+- `shared/` - Common packages (models, Protobuf schemas, envelope builders, normalized error codes)
+- `tests/` - Go unit and integration test suite (`auth_test.go`, `tasks_test.go`, `files_and_ws_test.go`)
   **Features:**
-- Inter-service communication (gRPC + HTTP)
-- Circuit breaker pattern
-- Distributed tracing (Jaeger)
-- Health checks & readiness probes
-- Graceful degradation
+- User Auth (JWT Access Token + HttpOnly Refresh Cookie)
+- Task & Subtask CRUD, Bulk Delete & Status Update
+- Dynamic Category Discovery & Multi-Criteria Filter/Sorting
+- Workload Analytics Engine (Velocity, Completion Rate %, Priority Distribution)
+- File Attachment Upload & Stream Download (`/api/v1/files/*`)
+- WebSockets Real-Time Task Update Broadcasting (`/api/v1/ws/tasks`)
+- Prometheus Telemetry Metrics Exporter (`/metrics`)
+- Health Checks & Readiness Probes (`/healthz`, `/readyz`)
+- Code-Driven OpenAPI / Swag Swagger UI (`/api-docs/`)
+- 100% Passing Go Test Suite (`go test ./...`)
 
 ### Project 8: Database Lab
 
@@ -626,7 +633,7 @@ Each cheatsheet should include:
 | 1.4 | SvelteKit        | ✅     | 2     | Svelte 5 Runes ($state, $derived, $effect), Form Actions, Server Load, REST API (+server.ts), View Transitions, hooks.server.ts |
 | 2.1 | Node.js          | ✅     | 2     | Express 5, TypeScript 5, Prisma 6 ORM, Zod 3, JWT HttpOnly Cookies, Winston, OpenAPI Swagger UI, Jest                           |
 | 2.2 | FastAPI          | ✅     | 1     | FastAPI, SQLAlchemy 2.0 Async, Pydantic v2, JWT HttpOnly Cookies, WebSockets, BackgroundTasks, Prometheus, Pytest               |
-| 2.3 | Go Microservices | ⬜     | 0     |                                                                                                                                 |
+| 2.3 | Go Microservices | ✅     | 1.5   | Go 1.22, Go Fiber v2, gRPC, Protobuf, GORM SQLite3, JWT Cookies, WebSockets, Prometheus, Swag UI, Go Test Suite                 |
 | 3   | Databases        | ⬜     | 0     |                                                                                                                                 |
 | 4   | Docker & K8s     | ⬜     | 0     |                                                                                                                                 |
 | 5   | CI/CD            | ⬜     | 0     |                                                                                                                                 |

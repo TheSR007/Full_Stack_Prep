@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "taskflow/shared/proto";
+
+message UserProto {
+  string id = 1;
+  string email = 2;
+  string name = 3;
+  string role = 4;
+  string createdAt = 5;
+}
+
+message RegisterRequest {
+  string email = 1;
+  string password = 2;
+  string name = 3;
+}
+
+message AuthResponse {
+  UserProto user = 1;
+  string accessToken = 2;
+  string refreshToken = 3;
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message RefreshRequest {
+  string refreshToken = 1;
+}
+
+message RefreshResponse {
+  string accessToken = 1;
+}
+
+message LogoutRequest {
+  string userId = 1;
+  string refreshToken = 2;
+}
+
+message LogoutResponse {
+  string message = 1;
+}
+
+message GetUserRequest {
+  string userId = 1;
+}
+
+service UserService {
+  rpc Register(RegisterRequest) returns (AuthResponse);
+  rpc Login(LoginRequest) returns (AuthResponse);
+  rpc Refresh(RefreshRequest) returns (RefreshResponse);
+  rpc Logout(LogoutRequest) returns (LogoutResponse);
+  rpc GetUser(GetUserRequest) returns (UserProto);
+}

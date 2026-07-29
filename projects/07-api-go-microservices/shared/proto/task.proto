@@ -1,0 +1,180 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "taskflow/shared/proto";
+
+message SubtaskProto {
+  string id = 1;
+  string taskId = 2;
+  string title = 3;
+  bool completed = 4;
+  string createdAt = 5;
+  string updatedAt = 6;
+}
+
+message TaskHistoryProto {
+  string id = 1;
+  string text = 2;
+  string timestamp = 3;
+}
+
+message TaskProto {
+  string id = 1;
+  string userId = 2;
+  string title = 3;
+  string description = 4;
+  string status = 5;
+  string priority = 6;
+  string category = 7;
+  repeated string tags = 8;
+  string dueDate = 9;
+  string createdAt = 10;
+  string updatedAt = 11;
+  repeated SubtaskProto subtasks = 12;
+  repeated TaskHistoryProto history = 13;
+}
+
+message ListTasksRequest {
+  string userId = 1;
+  string search = 2;
+  string status = 3;
+  string priority = 4;
+  string category = 5;
+  string tag = 6;
+  int32 page = 7;
+  int32 limit = 8;
+  string sortBy = 9;
+  string sortOrder = 10;
+}
+
+message ListTasksResponse {
+  repeated TaskProto tasks = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 limit = 4;
+}
+
+message GetTaskRequest {
+  string id = 1;
+  string userId = 2;
+}
+
+message CreateTaskRequest {
+  string userId = 1;
+  string title = 2;
+  string description = 3;
+  string status = 4;
+  string priority = 5;
+  string category = 6;
+  repeated string tags = 7;
+  string dueDate = 8;
+}
+
+message UpdateTaskRequest {
+  string id = 1;
+  string userId = 2;
+  string title = 3;
+  string description = 4;
+  string status = 5;
+  string priority = 6;
+  string category = 7;
+  repeated string tags = 8;
+  string dueDate = 9;
+}
+
+message DeleteTaskRequest {
+  string id = 1;
+  string userId = 2;
+}
+
+message DeleteTaskResponse {
+  string id = 1;
+  string message = 2;
+}
+
+message BulkDeleteRequest {
+  string userId = 1;
+  repeated string taskIds = 2;
+}
+
+message BulkDeleteResponse {
+  int32 count = 1;
+  string message = 2;
+}
+
+message BulkUpdateStatusRequest {
+  string userId = 1;
+  repeated string taskIds = 2;
+  string status = 3;
+}
+
+message BulkUpdateStatusResponse {
+  int32 count = 1;
+  string message = 2;
+}
+
+message GetCategoriesRequest {
+  string userId = 1;
+}
+
+message GetCategoriesResponse {
+  repeated string categories = 1;
+}
+
+message CreateSubtaskRequest {
+  string taskId = 1;
+  string userId = 2;
+  string title = 3;
+}
+
+message UpdateSubtaskRequest {
+  string taskId = 1;
+  string subtaskId = 2;
+  string userId = 3;
+  bool completed = 4;
+}
+
+message DeleteSubtaskRequest {
+  string taskId = 1;
+  string subtaskId = 2;
+  string userId = 3;
+}
+
+message DeleteSubtaskResponse {
+  string id = 1;
+  string message = 2;
+}
+
+message GetAnalyticsRequest {
+  string userId = 1;
+}
+
+message AnalyticsResponse {
+  int32 totalTasks = 1;
+  int32 completedTasks = 2;
+  int32 inProgressTasks = 3;
+  int32 urgentTasks = 4;
+  double completionRate = 5;
+  int32 completedThisWeek = 6;
+  string velocityTrend = 7;
+  int32 lowPriority = 8;
+  int32 mediumPriority = 9;
+  int32 highPriority = 10;
+  int32 urgentPriority = 11;
+}
+
+service TaskService {
+  rpc ListTasks(ListTasksRequest) returns (ListTasksResponse);
+  rpc GetTask(GetTaskRequest) returns (TaskProto);
+  rpc CreateTask(CreateTaskRequest) returns (TaskProto);
+  rpc UpdateTask(UpdateTaskRequest) returns (TaskProto);
+  rpc DeleteTask(DeleteTaskRequest) returns (DeleteTaskResponse);
+  rpc BulkDelete(BulkDeleteRequest) returns (BulkDeleteResponse);
+  rpc BulkUpdateStatus(BulkUpdateStatusRequest) returns (BulkUpdateStatusResponse);
+  rpc GetCategories(GetCategoriesRequest) returns (GetCategoriesResponse);
+  rpc CreateSubtask(CreateSubtaskRequest) returns (SubtaskProto);
+  rpc UpdateSubtask(UpdateSubtaskRequest) returns (SubtaskProto);
+  rpc DeleteSubtask(DeleteSubtaskRequest) returns (DeleteSubtaskResponse);
+  rpc GetAnalytics(GetAnalyticsRequest) returns (AnalyticsResponse);
+}

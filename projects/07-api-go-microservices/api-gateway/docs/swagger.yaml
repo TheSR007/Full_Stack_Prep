@@ -1,0 +1,626 @@
+basePath: /api/v1
+definitions:
+  handlers.BulkDeleteDTO:
+    properties:
+      taskIds:
+        example:
+        - t_101
+        - t_102
+        items:
+          type: string
+        type: array
+    type: object
+  handlers.BulkUpdateStatusDTO:
+    properties:
+      status:
+        example: completed
+        type: string
+      taskIds:
+        example:
+        - t_101
+        - t_102
+        items:
+          type: string
+        type: array
+    type: object
+  handlers.CreateSubtaskDTO:
+    properties:
+      title:
+        example: Verify CORS middleware
+        type: string
+    type: object
+  handlers.CreateTaskDTO:
+    properties:
+      category:
+        example: Database
+        type: string
+      description:
+        example: Configure auto migrations for User and Task models.
+        type: string
+      dueDate:
+        example: "2026-08-05"
+        type: string
+      priority:
+        example: high
+        type: string
+      status:
+        example: todo
+        type: string
+      tags:
+        example:
+        - '#gorm'
+        - '#sqlite'
+        items:
+          type: string
+        type: array
+      title:
+        example: Setup SQLite GORM Migrations
+        type: string
+    type: object
+  handlers.ErrorEnvelopeDTO:
+    properties:
+      error: {}
+      success:
+        example: false
+        type: boolean
+    type: object
+  handlers.LoginDTO:
+    properties:
+      email:
+        example: developer@taskflow.dev
+        type: string
+      password:
+        example: SecurePassword123!
+        type: string
+    type: object
+  handlers.MetaDTO:
+    properties:
+      limit:
+        example: 50
+        type: integer
+      page:
+        example: 1
+        type: integer
+      total:
+        example: 42
+        type: integer
+      totalPages:
+        example: 1
+        type: integer
+    type: object
+  handlers.PaginatedEnvelopeDTO:
+    properties:
+      data: {}
+      meta:
+        $ref: '#/definitions/handlers.MetaDTO'
+      success:
+        example: true
+        type: boolean
+    type: object
+  handlers.RegisterDTO:
+    properties:
+      email:
+        example: developer@taskflow.dev
+        type: string
+      name:
+        example: Dev User
+        type: string
+      password:
+        example: SecurePassword123!
+        type: string
+    type: object
+  handlers.SingleEnvelopeDTO:
+    properties:
+      data: {}
+      success:
+        example: true
+        type: boolean
+    type: object
+  handlers.UpdateSubtaskDTO:
+    properties:
+      completed:
+        example: true
+        type: boolean
+    type: object
+host: localhost:5000
+info:
+  contact:
+    email: dev@taskflow.dev
+    name: TaskFlow Dev Support
+  description: High-performance Go Microservices API built with Go Fiber, gRPC, and
+    SQLite3.
+  termsOfService: http://swagger.io/terms/
+  title: TaskFlow Suite — Go Microservices API
+  version: 1.0.0
+paths:
+  /analytics:
+    get:
+      description: Calculate workload stats, completion rate, velocity, and priority
+        breakdown
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.SingleEnvelopeDTO'
+      security:
+      - Bearer: []
+      summary: Get Workload Analytics
+      tags:
+      - Analytics
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate user email and password
+      parameters:
+      - description: Login credentials
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.LoginDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.SingleEnvelopeDTO'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handlers.ErrorEnvelopeDTO'
+      summary: Login User
+      tags:
+      - Authentication
+  /auth/logout:
+    post:
+      description: Revoke refresh token and clear cookie
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.SingleEnvelopeDTO'
+      security:
+      - Bearer: []
+      summary: Logout User
+      tags:
+      - Authentication
+  /auth/me:
+    get:
+      description: Fetch identity details of authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.SingleEnvelopeDTO'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.ErrorEnvelopeDTO'
+      security:
+      - Bearer: []
+      summary: Get Current User Profile
+      tags:
+      - Authentication
+  /auth/refresh:
+    post:
+      description: Obtain a new access token using HttpOnly refresh cookie
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.SingleEnvelopeDTO'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handlers.ErrorEnvelopeDTO'
+      summary: Refresh Access Token
+      tags:
+      - Authentication
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user account and set refresh cookie
+      parameters:
+      - description: User registration details
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.RegisterDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handlers.SingleEnvelopeDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.ErrorEnvelopeDTO'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/handlers.ErrorEnvelopeDTO'
+      summary: Register User
+      tags:
+      - Authentication
+  /categories:
+    get:
+      description: Retrieve sorted list of active categories
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.SingleEnvelopeDTO'
+      security:
+      - Bearer: []
+      summary: Get Dynamic Categories
+      tags:
+      - Categories
+  /files/download/{id}:
+    get:
+      description: Stream download file by ID
+      parameters:
+      - description: File Resource ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: file
+      security:
+      - Bearer: []
+      summary: Download File Attachment
+      tags:
+      - Files
+  /files/upload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Upload file resource for a task
+      parameters:
+      - description: File to upload
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: Task ID association
+        in: formData
+        name: taskId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handlers.SingleEnvelopeDTO'
+      security:
+      - Bearer: []
+      summary: Upload File Attachment
+      tags:
+      - Files
+  /tasks:
+    get:
+      description: Retrieve paginated tasks with search, category/priority/status
+        filters, and sorting
+      parameters:
+      - description: Search title or description
+        in: query
+        name: search
+        type: string
+      - description: Filter status (todo, in_progress, completed, all)
+        in: query
+        name: status
+        type: string
+      - description: Filter priority (low, medium, high, urgent, all)
+        in: query
+        name: priority
+        type: string
+      - description: Filter category
+        in: query
+        name: category
+        type: string
+      - description: Filter tag
+        in: query
+        name: tag
+        type: string
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 50
+        description: Page size limit
+        in: query
+        name: limit
+        type: integer
+      - description: Sort attribute (createdAt, dueDate, priorityWeight, title)
+        in: query
+        name: sortBy
+        type: string
+      - description: Sort order (asc, desc)
+        in: query
+        name: sortOrder
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.PaginatedEnvelopeDTO'
+      security:
+      - Bearer: []
+      summary: List Tasks
+      tags:
+      - Tasks
+    post:
+      consumes:
+      - application/json
+      description: Create a new task record
+      parameters:
+      - description: Task parameters
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreateTaskDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handlers.SingleEnvelopeDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.ErrorEnvelopeDTO'
+      security:
+      - Bearer: []
+      summary: Create Task
+      tags:
+      - Tasks
+  /tasks/{id}:
+    delete:
+      description: Delete task by ID
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.SingleEnvelopeDTO'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.ErrorEnvelopeDTO'
+      security:
+      - Bearer: []
+      summary: Delete Task
+      tags:
+      - Tasks
+    get:
+      description: Retrieve a single task by its ID
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.SingleEnvelopeDTO'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.ErrorEnvelopeDTO'
+      security:
+      - Bearer: []
+      summary: Get Task by ID
+      tags:
+      - Tasks
+    put:
+      consumes:
+      - application/json
+      description: Update task attributes by ID
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Fields to update
+        in: body
+        name: body
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.SingleEnvelopeDTO'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.ErrorEnvelopeDTO'
+      security:
+      - Bearer: []
+      summary: Update Task
+      tags:
+      - Tasks
+  /tasks/{id}/subtasks:
+    post:
+      consumes:
+      - application/json
+      description: Create a new subtask under a task
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Subtask title
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreateSubtaskDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handlers.SingleEnvelopeDTO'
+      security:
+      - Bearer: []
+      summary: Create Subtask
+      tags:
+      - Subtasks
+  /tasks/{id}/subtasks/{subtaskId}:
+    delete:
+      description: Delete subtask by ID
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Subtask ID
+        in: path
+        name: subtaskId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.SingleEnvelopeDTO'
+      security:
+      - Bearer: []
+      summary: Delete Subtask
+      tags:
+      - Subtasks
+    patch:
+      consumes:
+      - application/json
+      description: Toggle completion state of a subtask
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Subtask ID
+        in: path
+        name: subtaskId
+        required: true
+        type: string
+      - description: Completed status
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.UpdateSubtaskDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.SingleEnvelopeDTO'
+      security:
+      - Bearer: []
+      summary: Update Subtask Status
+      tags:
+      - Subtasks
+  /tasks/bulk-delete:
+    post:
+      consumes:
+      - application/json
+      description: Delete multiple tasks at once
+      parameters:
+      - description: Task IDs array
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.BulkDeleteDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.SingleEnvelopeDTO'
+      security:
+      - Bearer: []
+      summary: Bulk Delete Tasks
+      tags:
+      - Tasks
+  /tasks/bulk-update-status:
+    patch:
+      consumes:
+      - application/json
+      description: Update status for multiple tasks at once
+      parameters:
+      - description: Task IDs and new status
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.BulkUpdateStatusDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.SingleEnvelopeDTO'
+      security:
+      - Bearer: []
+      summary: Bulk Update Task Status
+      tags:
+      - Tasks
+securityDefinitions:
+  Bearer:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

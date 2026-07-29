@@ -1,0 +1,9 @@
+go 1.22
+
+use (
+	./api-gateway
+	./shared
+	./task-service
+	./tests
+	./user-service
+)
