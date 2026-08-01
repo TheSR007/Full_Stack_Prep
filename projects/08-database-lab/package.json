@@ -36,7 +36,7 @@
     "mongodb": "^6.13.0",
     "mongoose": "^8.9.6",
     "pg": "^8.13.1",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^6.0.1"
   },
   "devDependencies": {
     "@types/node": "^22.13.1",
