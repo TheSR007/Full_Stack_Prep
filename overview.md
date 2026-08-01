@@ -8,7 +8,7 @@
 | ------------ | --------------------------------------------------- | -------------- | ---------------------- |
 | **Frontend** | Next.js, React, HTMX, Svelte                        | ✅ Completed   | Task Manager UI ✅     |
 | **Backend**  | Node.js, Go (Microservices), FastAPI                | ✅ Completed   | Task Manager API ✅    |
-| **Database** | SQLite3, PostgreSQL, MongoDB, Redis                 | ⬜ Not Started | Multi-DB Task Store    |
+| **Database** | SQLite3, PostgreSQL, MongoDB, Redis                 | ✅ Completed   | Multi-DB Task Store    |
 | **DevOps**   | Docker, Docker Compose, K8s, GitHub Actions, ArgoCD | ⬜ Not Started | Containerized Pipeline |
 | **AWS**      | VPC, EC2, ALB, RDS, S3, Route53                     | ⬜ Not Started | Cloud Deployment       |
 
@@ -57,11 +57,13 @@
 - MongoDB (schema design, aggregation pipeline, replica sets)
 - Redis (caching strategies, session store, pub/sub, rate limiting)
 
-**Deliverable:** `database-lab/`
+**Deliverable:** `projects/08-database-lab/` - ✅ **Completed**
 
-- Same Task Manager schema implemented in all 4 databases
-- Performance comparison script
-- Redis caching layer for Node.js API
+- Same Task Manager schema implemented across SQLite3, PostgreSQL, MongoDB, and Redis
+- Raw drivers (`sqlite3`, `pg` Pool, `MongoClient`, `ioredis`) vs ORM/ODM (`Prisma ORM`, `Mongoose ODM`)
+- Real-world capabilities: PostgreSQL JSONB GIN index + Full-Text Search + CTEs, MongoDB Aggregation Pipelines + Embedded Subtasks, Redis Cache-Aside + Pipelining + Sliding Window Rate Limiting + Pub/Sub
+- Centralized `config.ts` environment loader (`POSTGRE_DATABASE_URL`, `SQLITE_DATABASE_URL`, `MONGO_URI`, `REDIS_URL`)
+- Standard 100k and 1M operation benchmark suite (`npm run bench`, `npm run bench:1m`)
 
 ---
 
@@ -340,18 +342,19 @@ All three backend implementations (Node.js, FastAPI, Go Microservices) strictly 
 - Code-Driven OpenAPI / Swag Swagger UI (`/api-docs/`)
 - 100% Passing Go Test Suite (`go test ./...`)
 
-### Project 8: Database Lab
+### Project 8: Database Lab - ✅ Completed
 
-**Scope:** Compare databases for same schema
-**Schema:** Users, Tasks, Categories, Tags, Comments
-**Experiments:**
+**Scope:** Compare 4 databases (SQLite3, PostgreSQL, MongoDB, Redis) for same Task Manager schema across Raw SQL / Native Drivers vs Prisma ORM / Mongoose ODM.
+**Schema:** Users, Tasks, Subtasks, Categories, Tags, Metadata
+**Experiments & Key Features Implemented:**
 
-- ACID vs BASE transaction models
-- Query performance benchmarking
-- Migration strategies (up/down)
-- Backup/restore procedures
-- Redis caching layer implementation
-- Full-text search comparison (PostgreSQL vs MongoDB)
+- **ACID vs BASE Transaction Models**: Parameterized SQL transactions in SQLite3 & PostgreSQL vs BSON Document embedding ($push subtasks) in MongoDB
+- **Query Performance Benchmarking**: Single-table 100k & 1M operation benchmark suite comparing Raw SQL vs Prisma ORM vs Mongoose ODM vs Redis Pipelining (`npm run bench`, `npm run bench:1m`)
+- **Centralized Environment Configuration**: `.env` loader (`src/config/config.ts`) with dedicated `POSTGRE_DATABASE_URL`, `SQLITE_DATABASE_URL`, `MONGO_URI`, and `REDIS_URL`
+- **PostgreSQL Advanced Features**: GIN JSONB indexing on tags/metadata, Full-Text Search (`tsvector`, `ts_rank`), Common Table Expressions (CTEs)
+- **MongoDB NoSQL Features**: Native `MongoClient` + Mongoose ODM Schema validation, Aggregation Pipeline analytics, text index search
+- **Redis High Performance Features**: Pipelined batch get/set (`redis.pipeline()`), Cache-Aside pattern, Sliding Window Rate Limiter (ZSET), Session TTL, Pub/Sub event broadcasting
+
 
 ### Project 9: Docker Compose Stack
 
@@ -634,7 +637,7 @@ Each cheatsheet should include:
 | 2.1 | Node.js          | ✅     | 2     | Express 5, TypeScript 5, Prisma 6 ORM, Zod 3, JWT HttpOnly Cookies, Winston, OpenAPI Swagger UI, Jest                           |
 | 2.2 | FastAPI          | ✅     | 1     | FastAPI, SQLAlchemy 2.0 Async, Pydantic v2, JWT HttpOnly Cookies, WebSockets, BackgroundTasks, Prometheus, Pytest               |
 | 2.3 | Go Microservices | ✅     | 1.5   | Go 1.22, Go Fiber v2, gRPC, Protobuf, GORM SQLite3, JWT Cookies, WebSockets, Prometheus, Swag UI, Go Test Suite                 |
-| 3   | Databases        | ⬜     | 0     |                                                                                                                                 |
+| 3   | Databases        | ✅     | 2     | SQLite3, PostgreSQL, MongoDB, Redis (Raw + ORM/ODM + Benchmarking)                                                              |
 | 4   | Docker & K8s     | ⬜     | 0     |                                                                                                                                 |
 | 5   | CI/CD            | ⬜     | 0     |                                                                                                                                 |
 | 6   | AWS              | ⬜     | 0     |                                                                                                                                 |

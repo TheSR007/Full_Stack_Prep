@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./sqlite-client"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./sqlite_bench.db"
+}
+
+model Task {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String?
+  status      String    @default("todo")
+  priority    String    @default("medium")
+  category    String    @default("General")
+  dueDate     String?
+  createdAt   DateTime  @default(now())
+  subtasks    Subtask[]
+
+  @@map("tasks")
+}
+
+model Subtask {
+  id          Int     @id @default(autoincrement())
+  taskId      Int
+  title       String
+  isCompleted Boolean @default(false)
+  task        Task    @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@map("subtasks")
+}

@@ -1,0 +1,49 @@
+{
+  "name": "08-database-lab",
+  "version": "1.0.0",
+  "description": "Database Lab comparing SQLite3, PostgreSQL, MongoDB, and Redis with raw queries, ORM/ODM patterns, and real-life Task Manager use cases.",
+  "main": "dist/benchmark/benchmark.js",
+  "scripts": {
+    "build": "tsc",
+    "prisma:gen": "prisma generate --schema=prisma/schema.prisma && prisma generate --schema=prisma/schema.sqlite.prisma",
+    "prisma:push": "prisma db push --schema=prisma/schema.prisma && prisma db push --schema=prisma/schema.sqlite.prisma",
+    "bench": "ts-node src/benchmark/benchmark.ts 100000",
+    "bench:1m": "ts-node src/benchmark/benchmark.ts 1000000",
+    "test:sqlite:raw": "ts-node src/sqlite/raw_sqlite.ts",
+    "test:sqlite:orm": "ts-node src/sqlite/orm_sqlite.ts",
+    "test:postgres:raw": "ts-node src/postgres/raw_postgres.ts",
+    "test:postgres:orm": "ts-node src/postgres/orm_postgres.ts",
+    "test:mongo:raw": "ts-node src/mongo/raw_mongo.ts",
+    "test:mongo:odm": "ts-node src/mongo/odm_mongo.ts",
+    "test:redis:cache": "ts-node src/redis/redis_cache.ts",
+    "test:redis:features": "ts-node src/redis/redis_features.ts"
+  },
+  "keywords": [
+    "sqlite3",
+    "postgres",
+    "mongodb",
+    "redis",
+    "orm",
+    "prisma",
+    "mongoose",
+    "ioredis"
+  ],
+  "author": "TheSR",
+  "dependencies": {
+    "@prisma/client": "^6.3.0",
+    "dotenv": "^16.4.7",
+    "ioredis": "^5.5.0",
+    "mongodb": "^6.13.0",
+    "mongoose": "^8.9.6",
+    "pg": "^8.13.1",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.1",
+    "@types/pg": "^8.11.11",
+    "@types/sqlite3": "^3.1.11",
+    "prisma": "^6.3.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
+}

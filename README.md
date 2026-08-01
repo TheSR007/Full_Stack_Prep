@@ -6,14 +6,14 @@
 
 ## Tech Stack Overview & Completion Status
 
-| Layer         | Technologies                                                  | Status               | Test Projects                                                              |
-| :------------ | :------------------------------------------------------------ | :------------------- | :------------------------------------------------------------------------- |
-| **Frontend**  | React 19, Next.js 16, HTMX 2.0, Svelte 5 / SvelteKit          | ✅ Completed (4/4)   | Task Manager UI Quartet (`01-react`, `02-nextjs`, `03-htmx`, `04-svelte`)  |
-| **Backend**   | Node.js (Express), FastAPI (Async Python), Go (Microservices) | ✅ Completed (3/3)   | Task Manager API (`05-api-nodejs`, `06-api-fastapi` , `07-api-go`) |
-| **Database**  | SQLite3, PostgreSQL, MongoDB, Redis                           | Not Started (0/1)    | Multi-DB Task Store (`08-database-lab`)                                    |
-| **DevOps**    | Docker, Docker Compose, Kubernetes, GitHub Actions, ArgoCD    | Not Started (0/3)    | Containerized Pipeline (`09-docker`, `10-k8s`, `11-ci-cd`)                 |
-| **AWS Cloud** | VPC, EC2, ALB, RDS, S3, Route53, Terraform                    | Not Started (0/1)    | Infrastructure as Code (`12-aws-terraform`)                                |
-| **Capstone**  | Next.js, Go Microservices, Multi-DB, Docker, K8s, AWS         | Not Started (0/1)    | DevDash Capstone Dashboard (`13-devdash-capstone`)                         |
+| Layer         | Technologies                                                  | Status             | Test Projects                                                             |
+| :------------ | :------------------------------------------------------------ | :----------------- | :------------------------------------------------------------------------ |
+| **Frontend**  | React 19, Next.js 16, HTMX 2.0, Svelte 5 / SvelteKit          | ✅ Completed (4/4) | Task Manager UI Quartet (`01-react`, `02-nextjs`, `03-htmx`, `04-svelte`) |
+| **Backend**   | Node.js (Express), FastAPI (Async Python), Go (Microservices) | ✅ Completed (3/3) | Task Manager API (`05-api-nodejs`, `06-api-fastapi` , `07-api-go`)        |
+| **Database**  | SQLite3, PostgreSQL, MongoDB, Redis                           | ✅ Completed       | Multi-DB Task Store (`08-database-lab`)                                   |
+| **DevOps**    | Docker, Docker Compose, Kubernetes, GitHub Actions, ArgoCD    | Not Started (0/3)  | Containerized Pipeline (`09-docker`, `10-k8s`, `11-ci-cd`)                |
+| **AWS Cloud** | VPC, EC2, ALB, RDS, S3, Route53, Terraform                    | Not Started (0/1)  | Infrastructure as Code (`12-aws-terraform`)                               |
+| **Capstone**  | Next.js, Go Microservices, Multi-DB, Docker, K8s, AWS         | Not Started (0/1)  | DevDash Capstone Dashboard (`13-devdash-capstone`)                        |
 
 ---
 
@@ -52,9 +52,9 @@
 
 ### Phase 2: Data Layer (Day 3)
 
-- [ ] **Project 08: Database Lab & Storage Benchmarking** — `projects/08-database-lab/`
-    - **Tech:** SQLite3, PostgreSQL, MongoDB, Redis
-    - **Scope:** ACID vs BASE transaction models, query performance benchmarks, Redis caching layer, full-text search comparison.
+- [x] **[Project 08: Database Lab & Storage Benchmarking](./projects/08-database-lab/)**
+    - **Tech:** SQLite3 (`sqlite3`), PostgreSQL (`pg` Pool), MongoDB (`mongodb`), Redis (`ioredis`), Prisma 6 ORM, Mongoose ODM, TypeScript
+    - **Scope:** Raw Drivers vs ORM/ODM comparison, PRAGMA WAL mode, PostgreSQL GIN JSONB index + Full-Text Search (`tsvector`) + CTEs, MongoDB Aggregation Pipelines + Embedded Subtasks (`$push`), Redis Pipelining + Cache-Aside + Sliding Window Rate Limiting (ZSET) + Session TTL + Pub/Sub, multi-schema Prisma setup (`postgresql` & `sqlite`), single ASCII 100k/1M benchmarking suite (`npm run bench`, `npm run bench:1m`).
 
 ---
 
@@ -129,20 +129,20 @@ Comprehensive reference guides created during hands-on practice:
 
 ## Daily Progress Summary
 
-| Day     | Topic                 | Status         | Key Deliverables                                                              |
-| :------ | :-------------------- | :------------- | :---------------------------------------------------------------------------- |
-| **1.1** | React 19 SPA          | ✅ Completed   | React 19, Zustand 5, TanStack Query, DnD, Tailwind v4                         |
-| **1.2** | Next.js 16 App Router | ✅ Completed   | App Router, Server Actions, Route Handlers, Edge Proxy, Hotkeys               |
-| **1.3** | HTMX 2.0 + FastAPI    | ✅ Completed   | Server-rendered SPA, OOB Jinja2 Toasts, SortableJS                            |
-| **1.4** | SvelteKit + Svelte 5  | ✅ Completed   | Svelte 5 Runes, Form Actions, REST API, View Transitions                      |
-| **2.1** | Node.js / Express     | ✅ Completed   | Express REST API, Prisma 6 ORM, Zod 3, JWT HttpOnly Cookies, Swagger UI, Jest |
-| **2.2** | FastAPI Backend       | ✅ Completed   | Python async API endpoints, Pydantic v2                                       |
+| Day     | Topic                 | Status         | Key Deliverables                                                                                   |
+| :------ | :-------------------- | :------------- | :------------------------------------------------------------------------------------------------- |
+| **1.1** | React 19 SPA          | ✅ Completed   | React 19, Zustand 5, TanStack Query, DnD, Tailwind v4                                              |
+| **1.2** | Next.js 16 App Router | ✅ Completed   | App Router, Server Actions, Route Handlers, Edge Proxy, Hotkeys                                    |
+| **1.3** | HTMX 2.0 + FastAPI    | ✅ Completed   | Server-rendered SPA, OOB Jinja2 Toasts, SortableJS                                                 |
+| **1.4** | SvelteKit + Svelte 5  | ✅ Completed   | Svelte 5 Runes, Form Actions, REST API, View Transitions                                           |
+| **2.1** | Node.js / Express     | ✅ Completed   | Express REST API, Prisma 6 ORM, Zod 3, JWT HttpOnly Cookies, Swagger UI, Jest                      |
+| **2.2** | FastAPI Backend       | ✅ Completed   | Python async API endpoints, Pydantic v2                                                            |
 | **2.3** | Go Microservices      | ✅ Completed   | Go Fiber REST API, gRPC, GORM SQLite3, JWT Cookies, WebSockets, Prometheus, Swag UI, Go Test Suite |
-| **3**   | Database Lab          | ⬜ Not Started | PostgreSQL, MongoDB, Redis caching benchmarks                                 |
-| **4**   | Docker & Kubernetes   | ⬜ Not Started | Compose multi-stage builds & K8s manifests                                    |
-| **5**   | CI/CD & ArgoCD        | ⬜ Not Started | GitHub Actions test/build/security pipeline                                   |
-| **6**   | AWS Terraform         | ⬜ Not Started | 3-tier VPC, EC2 ASG, RDS, ALB, S3, Route53                                    |
-| **7**   | DevDash Capstone      | ⬜ Not Started | Full-stack capstone integration project                                       |
+| **3**   | Database Lab          | ✅ Completed   | SQLite3, PostgreSQL (JSONB/FTS), MongoDB (Aggregation), Redis (Cache/RateLimiter)                  |
+| **4**   | Docker & Kubernetes   | ⬜ Not Started | Compose multi-stage builds & K8s manifests                                                         |
+| **5**   | CI/CD & ArgoCD        | ⬜ Not Started | GitHub Actions test/build/security pipeline                                                        |
+| **6**   | AWS Terraform         | ⬜ Not Started | 3-tier VPC, EC2 ASG, RDS, ALB, S3, Route53                                                         |
+| **7**   | DevDash Capstone      | ⬜ Not Started | Full-stack capstone integration project                                                            |
 
 ---
 
