@@ -1,0 +1,567 @@
+{
+  "version": 1,
+  "id": "d_fc6e765a",
+  "title": "Fullstack Prep Microservices Architecture",
+  "theme": "dark",
+  "nodes": [
+    {
+      "id": "n_871bb82a",
+      "type": "group",
+      "position": {
+        "x": 253,
+        "y": 113
+      },
+      "data": {
+        "kind": "group",
+        "label": "Reverse Proxy"
+      },
+      "width": 185,
+      "height": 107,
+      "zIndex": -1
+    },
+    {
+      "id": "n_1a5f13b2",
+      "type": "group",
+      "position": {
+        "x": 39.5,
+        "y": 274.22989678717585
+      },
+      "data": {
+        "kind": "group",
+        "label": "Frontend Tier"
+      },
+      "width": 198,
+      "height": 122,
+      "zIndex": -1
+    },
+    {
+      "id": "n_a812b669",
+      "type": "group",
+      "position": {
+        "x": 237.5,
+        "y": 429.55576020933484
+      },
+      "data": {
+        "kind": "group",
+        "label": "Gateway Tier"
+      },
+      "width": 192,
+      "height": 108,
+      "zIndex": -1
+    },
+    {
+      "id": "n_fb661d77",
+      "type": "group",
+      "position": {
+        "x": 344,
+        "y": 625.6315675506731
+      },
+      "data": {
+        "kind": "group",
+        "label": "Microservices Tier"
+      },
+      "width": 479,
+      "height": 131,
+      "zIndex": -1
+    },
+    {
+      "id": "n_06544754",
+      "type": "group",
+      "position": {
+        "x": 236.5,
+        "y": 816.6454105705615
+      },
+      "data": {
+        "kind": "group",
+        "label": "Database & Cache Tier"
+      },
+      "width": 708,
+      "height": 106,
+      "zIndex": -1
+    },
+    {
+      "id": "n_19c69e22",
+      "type": "group",
+      "position": {
+        "x": 533.250368617229,
+        "y": 105.83004423406749
+      },
+      "data": {
+        "kind": "group",
+        "label": "Observability Tier"
+      },
+      "width": 208,
+      "height": 276,
+      "zIndex": -1
+    },
+    {
+      "id": "n_cb334093",
+      "type": "arch",
+      "position": {
+        "x": 284,
+        "y": -22.488658233286266
+      },
+      "data": {
+        "kind": "client",
+        "label": "User Client",
+        "color": "#38bdf8"
+      },
+      "width": 120,
+      "height": 64
+    },
+    {
+      "id": "n_7eec3e9d",
+      "type": "arch",
+      "position": {
+        "x": 275,
+        "y": 136
+      },
+      "data": {
+        "kind": "loadbalancer",
+        "label": "Nginx",
+        "color": "#009639",
+        "icon": "nginx"
+      },
+      "width": 140,
+      "height": 65,
+      "zIndex": 1
+    },
+    {
+      "id": "n_9cbd760b",
+      "type": "arch",
+      "position": {
+        "x": 69,
+        "y": 302.72989678717585
+      },
+      "data": {
+        "kind": "webapp",
+        "label": "Frontend",
+        "color": "#38bdf8"
+      },
+      "width": 145,
+      "height": 66
+    },
+    {
+      "id": "n_91f223aa",
+      "type": "arch",
+      "position": {
+        "x": 267.5,
+        "y": 454.55576020933484
+      },
+      "data": {
+        "kind": "gateway",
+        "label": "API Gateway (Go)",
+        "color": "#00ADD8"
+      },
+      "width": 155,
+      "height": 58
+    },
+    {
+      "id": "n_d326ca5d",
+      "type": "arch",
+      "position": {
+        "x": 392,
+        "y": 663.1315675506731
+      },
+      "data": {
+        "kind": "api",
+        "label": "User Service (Go)",
+        "color": "#00ADD8"
+      },
+      "width": 155,
+      "height": 56
+    },
+    {
+      "id": "n_935d41d1",
+      "type": "arch",
+      "position": {
+        "x": 662.8210189219141,
+        "y": 654.6315675506731
+      },
+      "data": {
+        "kind": "function",
+        "label": "Worker (FastAPI)",
+        "color": "#3776AB"
+      },
+      "width": 135,
+      "height": 73
+    },
+    {
+      "id": "n_af0621fb",
+      "type": "arch",
+      "position": {
+        "x": 274.5,
+        "y": 839.1454105705615
+      },
+      "data": {
+        "kind": "database",
+        "label": "PostgreSQL",
+        "color": "#4169E1",
+        "icon": "postgres"
+      },
+      "width": 155,
+      "height": 65
+    },
+    {
+      "id": "n_de5f3759",
+      "type": "arch",
+      "position": {
+        "x": 546,
+        "y": 841.1454105705615
+      },
+      "data": {
+        "kind": "cache",
+        "label": "Redis",
+        "color": "#FF4438",
+        "icon": "redis"
+      },
+      "width": 128,
+      "height": 63
+    },
+    {
+      "id": "n_97a186cb",
+      "type": "arch",
+      "position": {
+        "x": 769.5,
+        "y": 839.1454105705615
+      },
+      "data": {
+        "kind": "nosql",
+        "label": "MongoDB",
+        "color": "#47A248",
+        "icon": "mongodb"
+      },
+      "width": 140,
+      "height": 61
+    },
+    {
+      "id": "n_4944ff73",
+      "type": "arch",
+      "position": {
+        "x": 562.250368617229,
+        "y": 274.72989678717585
+      },
+      "data": {
+        "kind": "service",
+        "label": "Prometheus",
+        "color": "#E6522C",
+        "icon": "prometheus"
+      },
+      "width": 150,
+      "height": 61
+    },
+    {
+      "id": "n_8a31910f",
+      "type": "arch",
+      "position": {
+        "x": 576.250368617229,
+        "y": 141
+      },
+      "data": {
+        "kind": "service",
+        "label": "Grafana",
+        "color": "#F46800",
+        "icon": "grafana"
+      },
+      "width": 125,
+      "height": 60
+    }
+  ],
+  "edges": [
+    {
+      "id": "e_55aa04d5",
+      "source": "n_cb334093",
+      "target": "n_7eec3e9d",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "flow",
+      "data": {
+        "label": "HTTPS / 443",
+        "labelPos": 0.367,
+        "animation": {
+          "enabled": true,
+          "direction": "both",
+          "speed": 1,
+          "color": "#34d399",
+          "density": 1,
+          "style": "dots",
+          "tokenLabel": "HTTPS"
+        },
+        "routing": "smooth"
+      }
+    },
+    {
+      "id": "e_fafedbd0",
+      "source": "n_7eec3e9d",
+      "target": "n_9cbd760b",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "flow",
+      "data": {
+        "label": "/",
+        "animation": {
+          "enabled": true,
+          "direction": "both",
+          "speed": 1,
+          "color": "#38bdf8",
+          "density": 1,
+          "style": "dots",
+          "tokenLabel": "HTTP"
+        }
+      }
+    },
+    {
+      "id": "e_e1092ce7",
+      "source": "n_7eec3e9d",
+      "target": "n_91f223aa",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "flow",
+      "data": {
+        "label": "/api",
+        "animation": {
+          "enabled": true,
+          "direction": "both",
+          "speed": 1,
+          "color": "#fb7185",
+          "density": 1,
+          "style": "dots",
+          "tokenLabel": "HTTP"
+        }
+      }
+    },
+    {
+      "id": "e_f3404e41",
+      "source": "n_7eec3e9d",
+      "target": "n_4944ff73",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "flow",
+      "data": {
+        "label": "/metrics",
+        "animation": {
+          "enabled": true,
+          "direction": "both",
+          "speed": 1,
+          "color": "#cf8402",
+          "density": 1,
+          "style": "dots",
+          "tokenLabel": "HTTP"
+        }
+      }
+    },
+    {
+      "id": "e_ccc97c15",
+      "source": "n_91f223aa",
+      "target": "n_d326ca5d",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "flow",
+      "data": {
+        "label": "Auth & Users",
+        "animation": {
+          "enabled": true,
+          "direction": "both",
+          "speed": 1,
+          "color": "#a78bfa",
+          "density": 1,
+          "style": "dots",
+          "tokenLabel": "gRPC"
+        }
+      }
+    },
+    {
+      "id": "e_b5a30fe8",
+      "source": "n_91f223aa",
+      "target": "n_935d41d1",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "flow",
+      "data": {
+        "label": "Async Jobs",
+        "animation": {
+          "enabled": true,
+          "direction": "both",
+          "speed": 1,
+          "color": "#22d3ee",
+          "density": 1,
+          "style": "dots",
+          "tokenLabel": "HTTP"
+        },
+        "routing": "bezier"
+      }
+    },
+    {
+      "id": "e_dba4d5e6",
+      "source": "n_d326ca5d",
+      "target": "n_af0621fb",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "flow",
+      "data": {
+        "label": "SQL Queries",
+        "animation": {
+          "enabled": true,
+          "direction": "both",
+          "speed": 1,
+          "color": "#f59e0b",
+          "density": 1,
+          "style": "dots",
+          "tokenLabel": "SQL"
+        }
+      }
+    },
+    {
+      "id": "e_671ab590",
+      "source": "n_d326ca5d",
+      "target": "n_de5f3759",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "flow",
+      "data": {
+        "label": "Session Cache",
+        "animation": {
+          "enabled": true,
+          "direction": "both",
+          "speed": 1,
+          "color": "#ff4438",
+          "density": 1,
+          "style": "dots",
+          "tokenLabel": "RESP"
+        }
+      }
+    },
+    {
+      "id": "e_24708ded",
+      "source": "n_935d41d1",
+      "target": "n_97a186cb",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "flow",
+      "data": {
+        "label": "Document Logs",
+        "animation": {
+          "enabled": true,
+          "direction": "both",
+          "speed": 1,
+          "color": "#47a248",
+          "density": 1,
+          "style": "dots",
+          "tokenLabel": "BSON"
+        }
+      }
+    },
+    {
+      "id": "e_8c436681",
+      "source": "n_935d41d1",
+      "target": "n_de5f3759",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "flow",
+      "data": {
+        "label": "Job Queue",
+        "animation": {
+          "enabled": true,
+          "direction": "both",
+          "speed": 1,
+          "color": "#ff4438",
+          "density": 1,
+          "style": "dots",
+          "tokenLabel": "RESP"
+        }
+      }
+    },
+    {
+      "id": "e_326de79b",
+      "source": "n_4944ff73",
+      "target": "n_91f223aa",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "flow",
+      "data": {
+        "label": "Scrapes Metrics",
+        "animation": {
+          "enabled": true,
+          "direction": "both",
+          "speed": 1,
+          "color": "#e6522c",
+          "density": 1,
+          "style": "dots",
+          "tokenLabel": "HTTP"
+        }
+      }
+    },
+    {
+      "id": "e_9b05d9e9",
+      "source": "n_4944ff73",
+      "target": "n_d326ca5d",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "flow",
+      "data": {
+        "label": "Scrapes Metrics",
+        "labelPos": 0.467,
+        "animation": {
+          "enabled": true,
+          "direction": "both",
+          "speed": 1,
+          "color": "#e6522c",
+          "density": 1,
+          "style": "dots",
+          "tokenLabel": "HTTP"
+        },
+        "routing": "smooth"
+      }
+    },
+    {
+      "id": "e_6583f83f",
+      "source": "n_4944ff73",
+      "target": "n_935d41d1",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "flow",
+      "data": {
+        "label": "Scrapes Metrics",
+        "animation": {
+          "enabled": true,
+          "direction": "both",
+          "speed": 1,
+          "color": "#e6522c",
+          "density": 1,
+          "style": "dots",
+          "tokenLabel": "HTTP"
+        }
+      }
+    },
+    {
+      "id": "e_773444d6",
+      "source": "n_8a31910f",
+      "target": "n_4944ff73",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "flow",
+      "data": {
+        "label": "Queries Data",
+        "labelPos": 0.55,
+        "animation": {
+          "enabled": true,
+          "direction": "both",
+          "speed": 1,
+          "color": "#f46800",
+          "density": 1,
+          "style": "dots",
+          "tokenLabel": "HTTP"
+        }
+      }
+    }
+  ],
+  "viewport": {
+    "x": 400.45753643762305,
+    "y": 67.96470466095357,
+    "zoom": 0.8705505632961257
+  },
+  "meta": {
+    "createdAt": "2026-08-04T19:17:54.224Z",
+    "updatedAt": "2026-08-04T20:10:42.718Z"
+  }
+}

@@ -4,13 +4,14 @@
 
 ## Tech Stack Overview
 
-| Layer        | Technologies                                        | Status         | Test Project           |
-| ------------ | --------------------------------------------------- | -------------- | ---------------------- |
-| **Frontend** | Next.js, React, HTMX, Svelte                        | ✅ Completed   | Task Manager UI ✅     |
-| **Backend**  | Node.js, Go (Microservices), FastAPI                | ✅ Completed   | Task Manager API ✅    |
-| **Database** | SQLite3, PostgreSQL, MongoDB, Redis                 | ✅ Completed   | Multi-DB Task Store    |
-| **DevOps**   | Docker, Docker Compose, K8s, GitHub Actions, ArgoCD | ⬜ Not Started | Containerized Pipeline |
-| **AWS**      | VPC, EC2, ALB, RDS, S3, Route53                     | ⬜ Not Started | Cloud Deployment       |
+| Layer        | Technologies                                    | Status         | Test Project            |
+| ------------ | ----------------------------------------------- | -------------- | ----------------------- |
+| **Frontend** | Next.js, React, HTMX, Svelte                    | ✅ Completed   | Task Manager UI ✅      |
+| **Backend**  | Node.js, Go (Microservices), FastAPI            | ✅ Completed   | Task Manager API ✅     |
+| **Database** | SQLite3, PostgreSQL, MongoDB, Redis             | ✅ Completed   | Multi-DB Task Store ✅  |
+| **DevOps**   | Docker, Docker Compose, GitHub Actions, doco-cd | ✅ Completed   | Docker Stack & CI/CD ✅ |
+| **K8s**      | Kubernetes, Helm, ArgoCD                        | ⬜ In Future   | Production Manifests    |
+| **AWS**      | VPC, EC2, ALB, RDS, S3, Route53                 | ⬜ Not Started | Cloud Deployment        |
 
 ---
 
@@ -67,36 +68,39 @@
 
 ---
 
-### Phase 3: Containerization (Day 4)
+### Phase 3: Containerization & CI/CD Pipeline (Day 4)
 
-**Goal:** Dockerize everything and orchestrate locally.
+**Goal:** Containerize multi-tier stack, orchestrate with Docker Compose, and automate testing, security scanning, and GitOps deployment with GitHub Actions.
 
-- Docker fundamentals (Dockerfile best practices, multi-stage builds, layer caching)
-- Docker Compose (multi-service orchestration, networks, volumes, env management)
-- Kubernetes basics (Pods, Services, Deployments, ConfigMaps, Secrets, Ingress)
+- Docker fundamentals (multi-stage builds, minimal base images, non-root user execution, layer caching, .dockerignore)
+- Docker Compose (multi-service orchestration, networks, volumes, env management, resource limits, health checks)
+- Dual Compose Environments (`docker-compose.yml` for Production, `docker-compose.dev.yml` for Development hot-reloading)
+- Observability (Prometheus metrics scraping, Grafana visual dashboards)
+- GitHub Actions CI/CD (`.github/workflows/ci.yml`)
+    - Selective change detection via path filtering (`dorny/paths-filter`)
+    - Matrix parallel execution for testing and linting (Hadolint, ESLint, Flake8, Golangci-lint)
+    - Security Scanning Gate (Trivy critical vulnerability check failing workflow on CRITICAL)
+    - BuildKit caching & push to single Docker Hub repository (`thesr/fullstack-prep:<service>-${SHA}`)
+    - Automated `docker-compose.yml` tag update commit with `[skip ci]` to prevent recursive workflow loops
+- Continuous Deployment (GitOps auto-sync via `doco-cd` runner)
 
-**Deliverable:** `infra-docker/`
+**Deliverable:** `projects/09-docker-compose-stack/` - ✅ **Completed**
 
-- Dockerfiles for all services
-- `docker-compose.yml` running full stack (Frontend + Backend + DB + Redis)
-- K8s manifests for local deployment (minikube/kind)
+- `projects/09-docker-compose-stack/` - ✅ **Completed** (10-Tier Stack: Nginx + Next.js + Go Gateway + Go User API + Python FastAPI Worker + PostgreSQL + MongoDB + Redis + Prometheus + Grafana)
+- `.github/workflows/ci.yml` - ✅ **Completed** (Selective CI/CD pipeline + Trivy Critical Gate + BuildKit caching + Docker Hub push + `[skip ci]` tag updates)
+- `projects/09-docker-compose-stack/deploy-repo-sample/doco-cd.yaml` - ✅ **Completed** (GitOps `doco-cd` auto-sync configuration)
 
 ---
 
-### Phase 4: CI/CD Pipeline (Day 5)
+### Phase 4: Kubernetes Orchestration (Day 5 - In Future)
 
-**Goal:** Automate testing, security, and deployment.
+**Goal:** Migrate multi-tier containerized stack to production Kubernetes clusters.
 
-- GitHub Actions (workflows, matrix builds, caching, artifacts)
-- Linting & Security (ESLint, Prettier, Black, golangci-lint, Trivy, Snyk, SonarQube)
-- CI Pipeline (test → lint → security scan → build → push to registry)
-- CD Options (GitHub Actions SSH deploy vs ArgoCD)
+- K8s manifests (Deployments with HPA, Services, ConfigMaps, Secrets, PersistentVolumeClaims, Ingress TLS, PodDisruptionBudgets)
+- Helm chart packaging & environment templating
+- ArgoCD GitOps continuous delivery sync
 
-**Deliverable:** `.github/workflows/`
-
-- `ci.yml` - Full CI pipeline
-- `cd-vps.yml` - SSH deployment to VPS
-- `cd-argocd.yml` - GitOps with ArgoCD manifests
+**Deliverable:** `projects/10-k8s-manifests/` (In Future)
 
 ---
 
@@ -156,15 +160,10 @@ hackathon-prep/
 │   ├── docker.md
 │   ├── fastapi.md
 │   ├── github-actions.md
-│   ├── go.md
-│   ├── htmx.md
 │   ├── kubernetes.md
-│   ├── mongodb.md
 │   ├── nextjs.md
 │   ├── nodejs.md
-│   ├── postgres.md
 │   ├── react.md
-│   ├── redis.md
 │   └── sveltekit.md
 ├── projects/
 │   ├── DESIGN.md            # Global Source of Truth for Projects 1-4 UI/UX
@@ -355,30 +354,30 @@ All three backend implementations (Node.js, FastAPI, Go Microservices) strictly 
 - **MongoDB NoSQL Features**: Native `MongoClient` + Mongoose ODM Schema validation, Aggregation Pipeline analytics, text index search
 - **Redis High Performance Features**: Pipelined batch get/set (`redis.pipeline()`), Cache-Aside pattern, Sliding Window Rate Limiter (ZSET), Session TTL, Pub/Sub event broadcasting
 
+### Project 9: Docker Compose Stack & GitOps CI/CD Pipeline - ✅ Completed
 
-### Project 9: Docker Compose Stack
+**Scope:** Production-grade 10-tier microservices stack with dual compose environments, automated CI testing, Trivy security scanning, single Docker Hub repository pushing, and doco-cd GitOps continuous deployment.
+**Tech:** Docker, Docker Compose, Nginx, Next.js, Go Fiber, FastAPI, PostgreSQL, MongoDB, Redis, Prometheus, Grafana, GitHub Actions, doco-cd
+**Status:** Completed with full 10-tier service orchestration, healthchecks, network isolation, decoupled path-filtered CI pipeline, Trivy security gates, BuildKit parallel caching, Docker Hub push (`fullstack-prep`), `pull_policy: always` static image deployment, bot `[skip ci]` tag updates, `Architechture.gif`, and workflow documentation.
+**Services & Features:**
 
-**Scope:** Full local development environment
-**Services:**
+- `nginx` (Edge Reverse Proxy routing HTTP traffic)
+- `frontend-nextjs` (Next.js App Router standalone UI running under non-root `nextjs` user with `HOSTNAME: "0.0.0.0"`)
+- `api-gateway` (Go Fiber HTTP API Gateway with JWT auth validation & routing)
+- `api-go-user` (Go User microservice handling profiles & database persistence)
+- `api-fastapi-worker` (Python FastAPI async worker processing background jobs)
+- `postgres` (PostgreSQL relational database with persistent volumes)
+- `mongo` (MongoDB document store for logs & telemetry)
+- `redis` (Redis in-memory cache, session store, sliding-window rate limiter, job queue)
+- `prometheus` + `grafana` (Prometheus metrics scraping & Grafana visual dashboards)
+- Dual Compose: `docker-compose.yml` (Production with pre-built images & `pull_policy: always`) vs `docker-compose.dev.yml` (Development hot-reloading)
+- GitHub Actions CI/CD Pipeline (`.github/workflows/ci.yml`) with decoupled parallel service jobs, path filtering, Trivy scan gates, single Docker Hub repository (`fullstack-prep`), 7-character short SHA tags, bot `[skip ci]` tag updates, and `doco-cd` GitOps auto-sync.
 
-- `frontend` (Next.js)
-- `api` (FastAPI)
-- `worker` (Celery)
-- `postgres` (PostgreSQL)
-- `redis` (Redis)
-- `mongo` (MongoDB)
-- `nginx` (Reverse proxy)
-- `prometheus` + `grafana` (Monitoring)
-  **Features:**
-- Hot reload for dev
-- Multi-stage builds for prod
-- Health checks
-- Log aggregation
-- Network isolation
+![Architecture Diagram](projects/09-docker-compose-stack/Architechture.gif)
 
-### Project 10: Kubernetes Manifests
+### Project 10: Kubernetes Manifests (In Future)
 
-**Scope:** K8s deployment for the stack
+**Scope:** K8s deployment for the stack (In Future)
 **Resources:**
 
 - Namespaces
@@ -389,22 +388,6 @@ All three backend implementations (Node.js, FastAPI, Go Microservices) strictly 
 - Ingress with TLS
 - NetworkPolicies
 - PodDisruptionBudgets
-
-### Project 11: GitHub Actions CI/CD
-
-**Scope:** Complete automation pipeline
-**Workflows:**
-
-- `pr-check.yml` - Lint, test, security scan on PR
-- `build-push.yml` - Build & push to Docker Hub/ECR
-- `deploy-vps.yml` - SSH deploy with zero-downtime
-- `deploy-argocd.yml` - GitOps sync
-  **Tools:**
-- ESLint, Prettier, Black, golangci-lint
-- Trivy (container scanning)
-- SonarQube (code quality)
-- Snyk (dependency vulnerabilities)
-- OWASP ZAP (DAST)
 
 ### Project 12: AWS Terraform
 
@@ -638,8 +621,8 @@ Each cheatsheet should include:
 | 2.2 | FastAPI          | ✅     | 1     | FastAPI, SQLAlchemy 2.0 Async, Pydantic v2, JWT HttpOnly Cookies, WebSockets, BackgroundTasks, Prometheus, Pytest               |
 | 2.3 | Go Microservices | ✅     | 1.5   | Go 1.22, Go Fiber v2, gRPC, Protobuf, GORM SQLite3, JWT Cookies, WebSockets, Prometheus, Swag UI, Go Test Suite                 |
 | 3   | Databases        | ✅     | 2     | SQLite3, PostgreSQL, MongoDB, Redis (Raw + ORM/ODM + Benchmarking)                                                              |
-| 4   | Docker & K8s     | ⬜     | 0     |                                                                                                                                 |
-| 5   | CI/CD            | ⬜     | 0     |                                                                                                                                 |
+| 4   | Docker & CI/CD   | ✅     | 5     | Multi-stage Dockerfiles, 10-tier Compose, Nginx, Prometheus/Grafana, GitHub Actions, Trivy Gate, BuildKit, doco-cd GitOps       |
+| 5   | Kubernetes       | ⬜     | 0     | (In Future) K8s Deployments, Services, Ingress, Helm, ArgoCD                                                                    |
 | 6   | AWS              | ⬜     | 0     |                                                                                                                                 |
 | 7   | Capstone         | ⬜     | 0     |                                                                                                                                 |
 
@@ -660,4 +643,4 @@ By the end of this preparation:
 
 ---
 
-_Last Updated: 2026-07-30_
+_Last Updated: 2026-08-05_

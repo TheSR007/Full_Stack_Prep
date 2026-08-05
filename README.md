@@ -11,7 +11,8 @@
 | **Frontend**  | React 19, Next.js 16, HTMX 2.0, Svelte 5 / SvelteKit          | ✅ Completed (4/4) | Task Manager UI Quartet (`01-react`, `02-nextjs`, `03-htmx`, `04-svelte`) |
 | **Backend**   | Node.js (Express), FastAPI (Async Python), Go (Microservices) | ✅ Completed (3/3) | Task Manager API (`05-api-nodejs`, `06-api-fastapi` , `07-api-go`)        |
 | **Database**  | SQLite3, PostgreSQL, MongoDB, Redis                           | ✅ Completed       | Multi-DB Task Store (`08-database-lab`)                                   |
-| **DevOps**    | Docker, Docker Compose, Kubernetes, GitHub Actions, ArgoCD    | Not Started (0/3)  | Containerized Pipeline (`09-docker`, `10-k8s`, `11-ci-cd`)                |
+| **DevOps**    | Docker, Docker Compose, GitHub Actions, doco-cd               | ✅ Completed       | Docker Stack & GitOps CI/CD (`09-docker-compose-stack`, `ci.yml`)         |
+| **K8s**       | Kubernetes, Helm, ArgoCD                                      | In Future (0/1)    | Kubernetes Production Manifests (`10-k8s-manifests`)                      |
 | **AWS Cloud** | VPC, EC2, ALB, RDS, S3, Route53, Terraform                    | Not Started (0/1)  | Infrastructure as Code (`12-aws-terraform`)                               |
 | **Capstone**  | Next.js, Go Microservices, Multi-DB, Docker, K8s, AWS         | Not Started (0/1)  | DevDash Capstone Dashboard (`13-devdash-capstone`)                        |
 
@@ -58,19 +59,21 @@
 
 ---
 
-### Phase 3: Containerization & Orchestration (Day 4)
+### Phase 3: Containerization & CI/CD Pipeline (Day 4)
 
-- [ ] **Project 09: Multi-Service Docker Compose Stack** — `projects/09-docker-compose-stack/`
-    - **Tech:** Docker, Docker Compose, Nginx reverse proxy, Prometheus, Grafana
-- [ ] **Project 10: Kubernetes Production Manifests** — `projects/10-k8s-manifests/`
-    - **Tech:** K8s Deployments, Services, ConfigMaps, Secrets, Ingress TLS, HPA
+- [x] **[Project 09: Multi-Service Docker Compose Stack & GitOps CI/CD Pipeline](./projects/09-docker-compose-stack)**
+    - **Tech:** Docker, Docker Compose, Nginx, Next.js, Go Fiber, FastAPI, PostgreSQL, MongoDB, Redis, Prometheus, Grafana, GitHub Actions, doco-cd
+    - **Features:** Production 10-tier microservices orchestration, dual compose setup (`docker-compose.yml` prod with `pull_policy: always` vs `docker-compose.dev.yml` dev hot-reload), decoupled path-filtered parallel CI workflow, Trivy security gates, BuildKit parallel caching, single Docker Hub repository (`fullstack-prep`), 7-character short SHA tags, bot `[skip ci]` tag updates, `doco-cd` GitOps auto-sync, `Architechture.gif`, and workflow documentation.
+
+![Architecture Diagram](./projects/09-docker-compose-stack/Architechture.gif)
 
 ---
 
-### Phase 4: CI/CD Automation (Day 5)
+### Phase 4: Kubernetes Orchestration (Day 5 - In Future)
 
-- [ ] **Project 11: GitHub Actions Pipeline & GitOps** — `projects/11-github-actions-ci/`
-    - **Tech:** GitHub Actions, Trivy security scan, SonarQube, ArgoCD GitOps sync
+- [ ] **[Project 10: Kubernetes Production Manifests](./projects/10-k8s-manifests)**
+    - **Tech:** K8s Deployments, Services, ConfigMaps, Secrets, Ingress TLS, HPA, Helm, ArgoCD
+    - **Features:** Production Kubernetes manifests, HPA autoscaling, ingress controller, Helm charts, ArgoCD GitOps deployment.
 
 ---
 
@@ -129,21 +132,21 @@ Comprehensive reference guides created during hands-on practice:
 
 ## Daily Progress Summary
 
-| Day     | Topic                 | Status         | Key Deliverables                                                                                   |
-| :------ | :-------------------- | :------------- | :------------------------------------------------------------------------------------------------- |
-| **1.1** | React 19 SPA          | ✅ Completed   | React 19, Zustand 5, TanStack Query, DnD, Tailwind v4                                              |
-| **1.2** | Next.js 16 App Router | ✅ Completed   | App Router, Server Actions, Route Handlers, Edge Proxy, Hotkeys                                    |
-| **1.3** | HTMX 2.0 + FastAPI    | ✅ Completed   | Server-rendered SPA, OOB Jinja2 Toasts, SortableJS                                                 |
-| **1.4** | SvelteKit + Svelte 5  | ✅ Completed   | Svelte 5 Runes, Form Actions, REST API, View Transitions                                           |
-| **2.1** | Node.js / Express     | ✅ Completed   | Express REST API, Prisma 6 ORM, Zod 3, JWT HttpOnly Cookies, Swagger UI, Jest                      |
-| **2.2** | FastAPI Backend       | ✅ Completed   | Python async API endpoints, Pydantic v2                                                            |
-| **2.3** | Go Microservices      | ✅ Completed   | Go Fiber REST API, gRPC, GORM SQLite3, JWT Cookies, WebSockets, Prometheus, Swag UI, Go Test Suite |
-| **3**   | Database Lab          | ✅ Completed   | SQLite3, PostgreSQL (JSONB/FTS), MongoDB (Aggregation), Redis (Cache/RateLimiter)                  |
-| **4**   | Docker & Kubernetes   | ⬜ Not Started | Compose multi-stage builds & K8s manifests                                                         |
-| **5**   | CI/CD & ArgoCD        | ⬜ Not Started | GitHub Actions test/build/security pipeline                                                        |
-| **6**   | AWS Terraform         | ⬜ Not Started | 3-tier VPC, EC2 ASG, RDS, ALB, S3, Route53                                                         |
-| **7**   | DevDash Capstone      | ⬜ Not Started | Full-stack capstone integration project                                                            |
+| Day     | Topic                 | Status         | Key Deliverables                                                                                    |
+| :------ | :-------------------- | :------------- | :-------------------------------------------------------------------------------------------------- |
+| **1.1** | React 19 SPA          | ✅ Completed   | React 19, Zustand 5, TanStack Query, DnD, Tailwind v4                                               |
+| **1.2** | Next.js 16 App Router | ✅ Completed   | App Router, Server Actions, Route Handlers, Edge Proxy, Hotkeys                                     |
+| **1.3** | HTMX 2.0 + FastAPI    | ✅ Completed   | Server-rendered SPA, OOB Jinja2 Toasts, SortableJS                                                  |
+| **1.4** | SvelteKit + Svelte 5  | ✅ Completed   | Svelte 5 Runes, Form Actions, REST API, View Transitions                                            |
+| **2.1** | Node.js / Express     | ✅ Completed   | Express REST API, Prisma 6 ORM, Zod 3, JWT HttpOnly Cookies, Swagger UI, Jest                       |
+| **2.2** | FastAPI Backend       | ✅ Completed   | Python async API endpoints, Pydantic v2                                                             |
+| **2.3** | Go Microservices      | ✅ Completed   | Go Fiber REST API, gRPC, GORM SQLite3, JWT Cookies, WebSockets, Prometheus, Swag UI, Go Test Suite  |
+| **3**   | Database Lab          | ✅ Completed   | SQLite3, PostgreSQL (JSONB/FTS), MongoDB (Aggregation), Redis (Cache/RateLimiter)                   |
+| **4**   | Docker Stack & CI/CD  | ✅ Completed   | 10-Tier Stack, Nginx, Prometheus/Grafana, GitHub Actions CI, Trivy Scan, Docker Hub, doco-cd GitOps |
+| **5**   | Kubernetes Manifests  | ⬜ In Future   | (In Future) Production K8s Manifests, Helm, ArgoCD                                                  |
+| **6**   | AWS Terraform         | ⬜ Not Started | 3-tier VPC, EC2 ASG, RDS, ALB, S3, Route53                                                          |
+| **7**   | DevDash Capstone      | ⬜ Not Started | Full-stack capstone integration project                                                             |
 
 ---
 
-_Last Updated: 2026-07-30_
+_Last Updated: 2026-08_05_
