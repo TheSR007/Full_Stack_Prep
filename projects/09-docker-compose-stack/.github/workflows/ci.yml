@@ -395,3 +395,23 @@ jobs:
           else
             echo "No changes to commit."
           fi
+
+      - name: Trigger doco-cd Deployment Webhook
+        run: |
+          if [ -n "${{ secrets.DOCO_CD_SERVER_URL }}" ]; then
+            echo "Sending deployment trigger to doco-cd server..."
+            BODY='{"ref":"refs/heads/'${{ github.ref_name }}'","repository":{"full_name":"'${{ github.repository }}'"}}'
+            if [ -n "${{ secrets.WEBHOOK_SECRET }}" ]; then
+              SIG=$(echo -n "$BODY" | openssl dgst -sha256 -hmac "${{ secrets.WEBHOOK_SECRET }}" | sed 's/(stdin)= //')
+              curl -s -X POST "${{ secrets.DOCO_CD_SERVER_URL }}" \
+                -H "Content-Type: application/json" \
+                -H "X-Hub-Signature-256: sha256=${SIG}" \
+                -d "$BODY" || echo "Webhook trigger sent."
+            else
+              curl -s -X POST "${{ secrets.DOCO_CD_SERVER_URL }}" \
+                -H "Content-Type: application/json" \
+                -d "$BODY" || echo "Webhook trigger sent."
+            fi
+          else
+            echo "DOCO_CD_SERVER_URL secret not set. Skipping Webhook trigger."
+          fi

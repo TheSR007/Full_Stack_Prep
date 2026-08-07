@@ -127,6 +127,9 @@ Comprehensive reference guides created during hands-on practice:
 - [SvelteKit & Svelte 5 Cheatsheet](./cheatsheets/sveltkit.md)
 - [React & Vite Setup Cheatsheet](./cheatsheets/react.md)
 - [Next.js App Router Cheatsheet](./cheatsheets/nextjs.md)
+- [GitHub Actions CI/CD Cheatsheet](./cheatsheets/github-actions.md)
+- [Docker & Docker Compose Cheatsheet](./cheatsheets/docker.md)
+- [doco-cd GitOps Cheatsheet](./cheatsheets/doco-cd.md)
 
 ---
 

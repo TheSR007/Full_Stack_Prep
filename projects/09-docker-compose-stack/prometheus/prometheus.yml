@@ -7,6 +7,10 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
 
+  - job_name: 'doco-cd'
+    static_configs:
+      - targets: ['localhost:9120']
+
   - job_name: 'api-gateway'
     static_configs:
       - targets: ['api-gateway:8080']

@@ -20,7 +20,6 @@ services:
     build:
       context: ./nginx
       dockerfile: Dockerfile
-    image: ${DOCKER_IMAGE_REPO}:nginx-${IMAGE_TAG}
     container_name: devops-nginx
     restart: unless-stopped
     ports:
@@ -40,7 +39,7 @@ services:
           memory: 128M
 
   frontend-nextjs:
-    image: ${DOCKER_IMAGE_REPO}:frontend-nextjs-0701bb6
+    image: ${DOCKER_IMAGE_REPO}:frontend-nextjs-269b263
     pull_policy: always
     container_name: devops-frontend-nextjs
     restart: unless-stopped
@@ -63,7 +62,7 @@ services:
           memory: 512M
 
   api-gateway:
-    image: ${DOCKER_IMAGE_REPO}:api-gateway-0701bb6
+    image: ${DOCKER_IMAGE_REPO}:api-gateway-269b263
     pull_policy: always
     container_name: devops-api-gateway
     restart: unless-stopped
@@ -92,7 +91,7 @@ services:
           memory: 256M
 
   api-go-user:
-    image: ${DOCKER_IMAGE_REPO}:api-go-user-0701bb6
+    image: ${DOCKER_IMAGE_REPO}:api-go-user-269b263
     pull_policy: always
     container_name: devops-api-go-user
     restart: unless-stopped
@@ -126,7 +125,7 @@ services:
           memory: 256M
 
   api-fastapi-worker:
-    image: ${DOCKER_IMAGE_REPO}:api-fastapi-worker-0701bb6
+    image: ${DOCKER_IMAGE_REPO}:api-fastapi-worker-269b263
     pull_policy: always
     container_name: devops-api-fastapi-worker
     restart: unless-stopped

@@ -1,0 +1,27 @@
+services:
+  doco-cd:
+    container_name: devops-doco-cd
+    image: ghcr.io/kimdre/doco-cd:latest
+    restart: unless-stopped
+    ports:
+      - "8088:80"        # Webhook endpoint
+      - "9120:9120"    # Prometheus Metrics endpoint
+    environment:
+      TZ: Asia/Dhaka
+      LOG_LEVEL: info
+      GIT_ACCESS_TOKEN: "${GIT_ACCESS_TOKEN}"
+      WEBHOOK_SECRET: "${WEBHOOK_SECRET}"
+      POLL_CONFIG: |
+        - url: https://github.com/TheSR007/docker-compose-stack.git
+          reference: master
+          interval: 60
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data:/data
+    healthcheck:
+      test: [ "CMD", "/doco-cd", "healthcheck" ]
+      start_period: 15s
+      interval: 30s
+      timeout: 5s
+      retries: 3

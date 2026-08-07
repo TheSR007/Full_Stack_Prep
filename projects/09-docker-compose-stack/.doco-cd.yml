@@ -1,0 +1,10 @@
+name: "docker-compose-stack"
+repository_url: "https://github.com/TheSR007/docker-compose-stack.git"
+reference: "master"
+working_dir: .
+compose_files:
+    - "docker-compose.yml"
+env_files:
+    - ".env"
+remove_orphans: true
+prune_images: true

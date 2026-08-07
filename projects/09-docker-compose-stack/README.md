@@ -37,10 +37,12 @@ It demonstrates containerization best practices, multi-stage builds, path-filter
 
 ```
 09-docker-compose-stack/
-├── .github/workflow/ci.yml      # CI/CD Pipeline
+├── .github/workflows/ci.yml     # CI/CD Pipeline
 ├── .env.example                 # Centralized environment variables template
 ├── docker-compose.yml           # Production Docker Compose specification
 ├── docker-compose.dev.yml       # Local Development Docker Compose specification
+├── .doco-cd.yml                 # GitOps runner configuration
+└── docker-compose.doco-cd.yml   # GitOps runner Docker Compose configuration
 ├── README.md                    # Project documentation (this file)
 ├── DESIGN_SPEC.md               # Technical design & architecture document
 ├── Architechture.gravel         # Gravel Graph architectural diagram
@@ -62,14 +64,12 @@ It demonstrates containerization best practices, multi-stage builds, path-filter
 │   ├── ...
 ├── prometheus/                  # Prometheus scraping configuration
 │   └── prometheus.yml
-├── grafana/                     # Grafana dashboards & datasources provisioning
-│   ├── dashboards/
-│   │   └── overview.json
-│   └── provisioning/
-│       ├── dashboards/
-│       └── datasources/
-└── deploy-repo-sample/          # Sample doco-cd GitOps runner configuration
-    └── doco-cd.yaml
+└── grafana/                     # Grafana dashboards & datasources provisioning
+    ├── dashboards/
+    │   └── overview.json
+    └── provisioning/
+        ├── dashboards/
+        └── datasources/
 ```
 
 ---
@@ -169,13 +169,44 @@ _Grafana Credentials_: User: `admin`, Password: `adminsecret` (defined in `.env`
 
 ### GitHub Actions Secrets & Permissions
 
-To enable building, pushing images, and automated tag updates in GitHub Actions, configure the following secrets and repository permissions:
+Configure the following secrets in your GitHub repository (**Settings > Secrets and variables > Actions**):
 
 - `DOCKERHUB_USERNAME`: Your Docker Hub account username.
 - `DOCKERHUB_TOKEN`: Personal Access Token generated from Docker Hub.
+- `BUMP_TOKEN`: Optional fine-grained GitHub PAT with `Contents: Read and Write` permissions to bypass branch protection rules when committing image tag updates back to the repository (falls back to `GITHUB_TOKEN` if omitted).
+- `DOCO_CD_SERVER_URL`: The HTTP Webhook URL of your deployment host server running `doco-cd` (e.g. `https://your-server-ip:8088`).
+- `WEBHOOK_SECRET`: Shared secret key matching `WEBHOOK_SECRET` on your `doco-cd` runner server for HMAC SHA-256 payload verification.
+
+---
 
 ### Continuous Deployment via doco-cd
 
-1. Install `doco-cd` on your deployment host server.
-2. Point `doco` to the sample config in `doco-cd.yaml`.
-3. `doco-cd` will continuously watch for new commits in your repository and automatically execute `docker compose pull && docker compose up -d` whenever updated image tags arrive.
+`doco-cd` operates as the GitOps runner on the target deployment host server. It deploys pre-built Docker Hub images by executing `docker compose pull && docker compose up -d` upon receiving deployment signals.
+
+#### Deployment Architecture
+
+1. **CI-Driven Webhook Trigger**:
+   Upon completing unit tests, container scans, image pushes, and `docker-compose.yml` short-SHA tag updates, GitHub Actions CI sends an authenticated HTTP POST Webhook to `DOCO_CD_SERVER_URL`.
+2. **Background Polling Fallback**:
+   In addition to real-time CI Webhooks, `doco-cd` maintains a 60-second polling check (`interval: 60`) against the repository as a backup mechanism.
+
+#### 1. Generate GitHub Personal Access Token (PAT)
+- Go to GitHub **Settings > Developer Settings > Personal Access Tokens > Fine-grained tokens**.
+- Create token with `Contents: Read-only` access for your private repository.
+- Export as `GIT_ACCESS_TOKEN` on the deployment host.
+
+#### 2. In-Repository Specification (`.doco-cd.yml`)
+- `.doco-cd.yml` defines the target deployment state for the repository (`repository_url: "https://github.com/TheSR007/docker-compose-stack.git"`, `reference: "master"`, `compose_files: ["docker-compose.yml"]`, `env_files: [".env"]`, `remove_orphans: true`, `prune_images: true`).
+
+#### 3. Deploy doco-cd Runner on Host Server
+```bash
+# make sure these environment secrets are set on the .env 
+GIT_ACCESS_TOKEN
+WEBHOOK_SECRET
+
+# Launch doco-cd runner container
+docker compose -f docker-compose.doco-cd.yml up -d
+
+# Monitor runner logs
+docker compose -f docker-compose.doco-cd.yml logs -f
+```
