@@ -28,7 +28,7 @@
     "swagger-jsdoc": "^6.3.0",
     "swagger-ui-express": "^5.0.1",
     "winston": "^3.19.0",
-    "zod": "^3.24.1"
+    "zod": "^4.6.6"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
